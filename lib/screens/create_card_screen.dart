@@ -11,21 +11,19 @@ class CreateCardsScreen extends StatefulWidget {
 }
 
 class _CreateCardsScreenState extends State<CreateCardsScreen> {
+  ScrollController scrollController = ScrollController();
   var numOfCards = 1;
-  //TODO: Add controller to focus on the newly created card
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         actions: [
           Tab(
-            child: IconButton(
+            child: TextButton(
               onPressed: () {
-                setState(() {
-                  numOfCards++;
-                });
+                print('Save cards');
               },
-              icon: Icon(Icons.add),
+              child: Text('Save'),
             ),
           )
         ],
@@ -33,18 +31,23 @@ class _CreateCardsScreenState extends State<CreateCardsScreen> {
       body: SafeArea(
         child: Form(
           child: ListView.builder(
-            reverse: mounted,
+            controller: scrollController,
             itemCount: numOfCards,
             itemBuilder: (context, index) {
-              return QACardForm();
+              return const QACardForm();
             },
           ),
         ),
       ),
       bottomNavigationBar: BottomAppBar(
         child: IconButton(
-          onPressed: () => print('save cards'),
-          icon: Icon(Icons.save),
+          onPressed: () {
+            setState(() {
+              numOfCards++;
+            });
+            scrollController.jumpTo(scrollController.position.maxScrollExtent);
+          },
+          icon: const Icon(Icons.add),
         ),
       ),
     );
@@ -65,7 +68,7 @@ class _QACardFormState extends State<QACardForm> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(10.0),
+      margin: const EdgeInsets.all(10.0),
       color: Colors.black12,
       child: InkWell(
         onLongPress: () {
@@ -75,33 +78,37 @@ class _QACardFormState extends State<QACardForm> {
           showDialog(
             context: context,
             builder: (BuildContext context) => AlertDialog(
-              title: Text('Delete'),
-              content: Text('Delete this card?'),
+              title: const Text('Delete'),
+              content: const Text('Delete this card?'),
               actions: [
                 TextButton(
                   onPressed: () {
                     print('Yes');
+                    // setState(() {
+                    //   scrollController;
+                    // });
+                    // print(scrollController);
                     Navigator.pop(context);
                   },
-                  child: Text('Yes'),
+                  child: const Text('Yes'),
                 ),
                 TextButton(
                   onPressed: () {
                     print('No');
                     Navigator.pop(context);
                   },
-                  child: Text('No'),
+                  child: const Text('No'),
                 ),
               ],
             ),
           );
         },
         child: Container(
-          padding: EdgeInsets.all(25.0),
+          padding: const EdgeInsets.all(25.0),
           child: Column(
             children: [
               Container(
-                margin: EdgeInsets.all(5),
+                margin: const EdgeInsets.all(5),
                 child: Text('Question $counter'),
               ),
               Container(
@@ -111,8 +118,8 @@ class _QACardFormState extends State<QACardForm> {
                 ),
               ),
               Container(
-                margin: EdgeInsets.all(5),
-                child: Text('Answer'),
+                margin: const EdgeInsets.all(5),
+                child: const Text('Answer'),
               ),
               Container(
                 child: TextFormField(
