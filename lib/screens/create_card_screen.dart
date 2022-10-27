@@ -1,9 +1,10 @@
 import 'dart:developer';
 
-import 'package:flutter/cupertino.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:free_quizme/services/qa_cards_service.dart';
+import 'package:free_quizme/widgets/qa_cards.dart';
 
 class CreateCardsScreen extends StatefulWidget {
   const CreateCardsScreen({super.key});
@@ -14,7 +15,8 @@ class CreateCardsScreen extends StatefulWidget {
 
 class _CreateCardsScreenState extends State<CreateCardsScreen> {
   ScrollController scrollController = ScrollController();
-  List<QACardForm> listOfCards = [];
+  List<CardForm> listOfCards = [CardForm()];
+  CardService cardService = CardService();
 
   @override
   Widget build(BuildContext context) {
@@ -25,10 +27,12 @@ class _CreateCardsScreenState extends State<CreateCardsScreen> {
             child: IconButton(
               onPressed: () {
                 setState(() {
-                  listOfCards.add(QACardForm());
+                  listOfCards.add(CardForm());
                 });
-                scrollController.animateTo(scrollController.position.minScrollExtent,
-                    duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
+                scrollController.animateTo(
+                    scrollController.position.minScrollExtent,
+                    duration: Duration(milliseconds: 300),
+                    curve: Curves.easeInOut);
               },
               icon: Icon(Icons.add),
             ),
@@ -37,6 +41,7 @@ class _CreateCardsScreenState extends State<CreateCardsScreen> {
       ),
       body: SafeArea(
         child: Form(
+          autovalidateMode: AutovalidateMode.always,
           child: SingleChildScrollView(
             controller: scrollController,
             child: Column(
@@ -48,84 +53,11 @@ class _CreateCardsScreenState extends State<CreateCardsScreen> {
       ),
       bottomNavigationBar: BottomAppBar(
         child: IconButton(
-          onPressed: () => print('save cards'),
+          onPressed: (){
+            cardService.saveAllCards('test', listOfCards);
+            //TODO: empty the list, show success messages and redirect user to homepage or their new card collection.
+          },
           icon: Icon(Icons.save),
-        ),
-      ),
-    );
-  }
-}
-
-class QACardForm extends StatefulWidget {
-  const QACardForm({
-    Key? key,
-  }) : super(key: key);
-  @override
-  State<QACardForm> createState() => _QACardFormState();
-}
-
-class _QACardFormState extends State<QACardForm> {
-  var counter = 0;
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.all(10.0),
-      color: Colors.black12,
-      child: InkWell(
-        onLongPress: () {
-          setState(() {
-            counter++;
-          });
-          showDialog(
-            context: context,
-            builder: (BuildContext context) => AlertDialog(
-              title: Text('Delete'),
-              content: Text('Delete this card?'),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    print('Yes');
-                    Navigator.pop(context);
-                  },
-                  child: Text('Yes'),
-                ),
-                TextButton(
-                  onPressed: () {
-                    print('No');
-                    Navigator.pop(context);
-                  },
-                  child: Text('No'),
-                ),
-              ],
-            ),
-          );
-        },
-        child: Container(
-          padding: EdgeInsets.all(25.0),
-          child: Column(
-            children: [
-              Container(
-                margin: EdgeInsets.all(5),
-                child: Text('Question $counter'),
-              ),
-              Container(
-                child: TextFormField(
-                  keyboardType: TextInputType.multiline,
-                  maxLines: null,
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.all(5),
-                child: Text('Answer'),
-              ),
-              Container(
-                child: TextFormField(
-                  keyboardType: TextInputType.multiline,
-                  maxLines: null,
-                ),
-              ),
-            ],
-          ),
         ),
       ),
     );

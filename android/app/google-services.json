@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "1096783478376",
+    "project_id": "qzcards-49ee1",
+    "storage_bucket": "qzcards-49ee1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1096783478376:android:cc3e6e7986983294be45dd",
+        "android_client_info": {
+          "package_name": "com.example.free_quizme"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1096783478376-faq56mhd4cb3ehvkhg4jmhmq56cnvc3u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAndsvw9rtW7gZw5-wGm-SsUUqSxh4t96Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1096783478376-faq56mhd4cb3ehvkhg4jmhmq56cnvc3u.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1096783478376-t64blj27ntc40jnugaa5au9uop65es6j.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.freeQuizme"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
