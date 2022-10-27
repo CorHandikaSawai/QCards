@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
@@ -11,8 +13,9 @@ class CreateCardsScreen extends StatefulWidget {
 }
 
 class _CreateCardsScreenState extends State<CreateCardsScreen> {
-  var numOfCards = 1;
-  //TODO: Add controller to focus on the newly created card
+  ScrollController scrollController = ScrollController();
+  List<QACardForm> listOfCards = [];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,8 +25,10 @@ class _CreateCardsScreenState extends State<CreateCardsScreen> {
             child: IconButton(
               onPressed: () {
                 setState(() {
-                  numOfCards++;
+                  listOfCards.add(QACardForm());
                 });
+                scrollController.animateTo(scrollController.position.minScrollExtent,
+                    duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
               },
               icon: Icon(Icons.add),
             ),
@@ -32,12 +37,12 @@ class _CreateCardsScreenState extends State<CreateCardsScreen> {
       ),
       body: SafeArea(
         child: Form(
-          child: ListView.builder(
-            reverse: mounted,
-            itemCount: numOfCards,
-            itemBuilder: (context, index) {
-              return QACardForm();
-            },
+          child: SingleChildScrollView(
+            controller: scrollController,
+            child: Column(
+              verticalDirection: VerticalDirection.up,
+              children: listOfCards,
+            ),
           ),
         ),
       ),
@@ -55,7 +60,6 @@ class QACardForm extends StatefulWidget {
   const QACardForm({
     Key? key,
   }) : super(key: key);
-
   @override
   State<QACardForm> createState() => _QACardFormState();
 }
