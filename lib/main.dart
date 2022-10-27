@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:free_quizme/screens/create_cards_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,7 +14,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Free Quizme',
       theme: ThemeData.dark(),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: CreateCards(),
+      routes: {
+        '/create-cards' : (context) => CreateCards(),
+      },
     );
   }
 }
@@ -38,39 +42,44 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: SafeArea(
         minimum: const EdgeInsets.all(8.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Container(
-              margin: const EdgeInsets.all(5.0),
-              height: screenSize.height * 0.4,
-              color: Colors.black12,
-              child: const Center(
-                child: Padding(
-                  padding: EdgeInsets.all(20.0),
-                  child: Text(
-                    'Consectetur excepteur culpa sint quis aute anim id. Duis nulla excepteur officia mollit proident Lorem laboris consequat ad tempor aute cupidatat qui est. Irure eiusmod occaecat exercitation laborum eiusmod deserunt cillum adipisicing.',
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                      fontSize: 24,
+        child: LayoutBuilder(
+          builder: (context, constraint) {
+            //TODO: Implement screen breakpoints
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Container(
+                  margin: const EdgeInsets.all(5.0),
+                  height: screenSize.height * 0.4,
+                  color: Colors.black12,
+                  child: const Center(
+                    child: Padding(
+                      padding: EdgeInsets.all(20.0),
+                      child: Text(
+                        'Consectetur excepteur culpa sint quis aute anim id. Duis nulla excepteur officia mollit proident Lorem laboris consequat ad tempor aute cupidatat qui est. Irure eiusmod occaecat exercitation laborum eiusmod deserunt cillum adipisicing.',
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                          fontSize: 24,
+                        ),
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ),
-            Container(
-              height: screenSize.height * 0.5,
-              child: GridView.count(
-                crossAxisCount: 2,
-                children: const [
-                  Answer(),
-                  Answer(),
-                  Answer(),
-                  Answer(),
-                ],
-              ),
-            ),
-          ],
+                Container(
+                  height: screenSize.height * 0.5,
+                  child: GridView.count(
+                    crossAxisCount: 2,
+                    children: const [
+                      Answer(),
+                      Answer(),
+                      Answer(),
+                      Answer(),
+                    ],
+                  ),
+                ),
+              ],
+            );
+          },
         ),
       ),
     );
@@ -84,10 +93,17 @@ class Answer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.all(5),
-      child: const Center(child: Text('Answer A')),
-      color: Colors.black12,
+    return InkWell(
+      onTap: () {
+        print('Answer button pressed!');
+      },
+      child: Container(
+        margin: const EdgeInsets.all(5),
+        child: const Center(
+          child: Text('Answer'),
+        ),
+        color: Colors.black12,
+      ),
     );
   }
 }
