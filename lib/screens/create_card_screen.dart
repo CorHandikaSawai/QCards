@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
+import 'package:free_quizme/screens/flashcards_screen.dart';
 import 'package:free_quizme/services/qa_cards_service.dart';
 import 'package:free_quizme/widgets/qa_cards.dart';
 
@@ -22,7 +23,7 @@ class _CreateCardsScreenState extends State<CreateCardsScreen> {
       appBar: AppBar(
         actions: [
           Tab(
-            child: TextButton(
+            child: IconButton(
               onPressed: () {
                 setState(() {
                   listOfCards.add(CardForm());
@@ -32,7 +33,7 @@ class _CreateCardsScreenState extends State<CreateCardsScreen> {
                     duration: Duration(milliseconds: 300),
                     curve: Curves.easeInOut);
               },
-              child: Text('Save'),
+              icon: Icon(Icons.add),
             ),
           )
         ],
@@ -51,9 +52,17 @@ class _CreateCardsScreenState extends State<CreateCardsScreen> {
       ),
       bottomNavigationBar: BottomAppBar(
         child: IconButton(
-          onPressed: () {
-            cardService.saveAllCards('test', listOfCards);
-            //TODO: empty the list, show success messages and redirect user to homepage or their new card collection.
+          onPressed: () async {
+            await cardService.saveAllCards('test', listOfCards);
+            setState(() {
+              listOfCards.clear();
+            });
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => FlashcardsScreen(),
+              ),
+            );
           },
           icon: Icon(Icons.save),
         ),

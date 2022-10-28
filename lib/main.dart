@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:free_quizme/firebase_options.dart';
 import 'package:free_quizme/screens/create_card_screen.dart';
+import 'package:free_quizme/screens/flashcards_screen.dart';
 import 'package:free_quizme/screens/quiz_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Free Quizme',
       theme: ThemeData.dark(),
-      home: CreateCardsScreen(),
+      home: FlashcardsScreen(),
     );
   }
 }
