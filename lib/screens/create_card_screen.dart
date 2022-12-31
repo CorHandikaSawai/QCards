@@ -7,7 +7,9 @@ import 'package:free_quizme/services/qa_cards_service.dart';
 import 'package:free_quizme/widgets/qa_cards.dart';
 
 class CreateCardsScreen extends StatefulWidget {
-  const CreateCardsScreen({super.key});
+  const CreateCardsScreen({super.key, required this.collectionName});
+
+  final String? collectionName;
 
   @override
   State<CreateCardsScreen> createState() => _CreateCardsScreenState();
@@ -22,6 +24,8 @@ class _CreateCardsScreenState extends State<CreateCardsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
+        title: Text(widget.collectionName.toString()),
         actions: [
           Tab(
             child: IconButton(
@@ -53,7 +57,7 @@ class _CreateCardsScreenState extends State<CreateCardsScreen> {
       ),
       bottomNavigationBar: BottomAppBar(
         child: IconButton(
-          onPressed: (){
+          onPressed: () {
             cardService.saveAllCards('test', listOfCards);
             //TODO: empty the list, show success messages and redirect user to homepage or their new card collection.
           },
