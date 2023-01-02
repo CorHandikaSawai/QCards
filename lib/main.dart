@@ -5,11 +5,22 @@ import 'package:free_quizme/firebase_options.dart';
 import 'package:free_quizme/screens/create_card_screen.dart';
 import 'package:free_quizme/screens/homepage_screen.dart';
 import 'package:free_quizme/screens/quiz_screen.dart';
+import 'package:free_quizme/services/qa_cards_service.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => CardService(),
+        ),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {

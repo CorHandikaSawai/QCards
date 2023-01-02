@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:free_quizme/screens/create_card_screen.dart';
 import 'package:free_quizme/services/qa_cards_service.dart';
 import 'package:free_quizme/widgets/collection_card.dart';
+import 'package:provider/provider.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -17,27 +18,38 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final cardService = Provider.of<CardService>(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text('QCards'),
+        title: const Text('QCards'),
         actions: [
           IconButton(
             onPressed: () => print('Profile setting'),
-            icon: Icon(Icons.person),
+            icon: const Icon(Icons.person),
           ),
         ],
       ),
       body: SafeArea(
-        minimum: EdgeInsets.all(8),
-        child: ListView(
-          children: [
-            ElevatedButton(
-              onPressed: () =>
-                  CardService().getUserCollections(userId: 'userid'),
-              child: Text('Get all Collections Test'),
-            ),
-            CollectionCard(),
-          ],
+        minimum: const EdgeInsets.all(8),
+        child: FutureBuilder(
+          future: cardService.collections,
+          builder:
+              (context, AsyncSnapshot<List<Map<String, String>>> snapshot) {
+            List<Widget> subjects = [];
+            if (snapshot.hasData) {
+              for (var element in snapshot.data!) {
+                subjects.add(
+                  CollectionCard(
+                    subjectName: element['subjectName'],
+                    count: element['count'],
+                  ),
+                );
+              }
+            }
+            return ListView(
+              children: subjects,
+            );
+          },
         ),
       ),
       floatingActionButton: FloatingActionButton(

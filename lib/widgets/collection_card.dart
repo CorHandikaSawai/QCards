@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 class CollectionCard extends StatelessWidget {
   const CollectionCard({
     Key? key,
+    @required subjectName,
+    @required count,
   }) : super(key: key);
 
   @override
