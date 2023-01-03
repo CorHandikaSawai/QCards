@@ -40,12 +40,16 @@ class _MyHomePageState extends State<MyHomePage> {
               for (var element in snapshot.data!) {
                 subjects.add(
                   CollectionCard(
-                    subjectName: element['subjectName'],
-                    count: element['count'],
+                    subjectName: element['subjectName'].toString(),
+                    count: element['count'].toString(),
                   ),
                 );
               }
             }
+            if (snapshot.hasError) {
+              print('Error');
+            }
+            print(snapshot.connectionState);
             return ListView(
               children: subjects,
             );

@@ -58,7 +58,8 @@ class _CreateCardsScreenState extends State<CreateCardsScreen> {
       bottomNavigationBar: BottomAppBar(
         child: IconButton(
           onPressed: () {
-            cardService.saveAllCards('test', listOfCards);
+            cardService.saveAllCards(
+                widget.collectionName.toString(), listOfCards);
             //TODO: empty the list, show success messages and redirect user to homepage or their new card collection.
           },
           icon: Icon(Icons.save),

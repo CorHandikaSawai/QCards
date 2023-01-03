@@ -3,9 +3,12 @@ import 'package:flutter/material.dart';
 class CollectionCard extends StatelessWidget {
   const CollectionCard({
     Key? key,
-    @required subjectName,
-    @required count,
+    required this.subjectName,
+    required this.count,
   }) : super(key: key);
+
+  final String subjectName;
+  final String count;
 
   @override
   Widget build(BuildContext context) {
@@ -23,8 +26,8 @@ class CollectionCard extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Text('Collection Title'),
-                      Text('Number of cards'),
+                      Text(subjectName),
+                      Text('$count cards'),
                     ],
                   ),
                 ),

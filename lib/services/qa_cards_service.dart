@@ -1,37 +1,49 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:free_quizme/widgets/qa_cards.dart';
-import 'package:provider/provider.dart';
 
 class CardService extends ChangeNotifier {
   final _firebaseFirestore = FirebaseFirestore.instance;
+  List<Map<String, String>> cardCollections = [];
+
   Future<List<Map<String, String>>> get collections async {
-    final cardCollection = await getUserCollections(userId: 'userId');
-    return cardCollection;
+    await getUserCollections(userId: 'userId');
+    return cardCollections;
   }
 
-  Future<List<Map<String, String>>> getUserCollections(
-      {required String userId}) async {
-    List<Map<String, String>> cardCollections = [];
+  Future<void> getUserCollections({required String userId}) async {
     final docRef = await _firebaseFirestore
         .collection('collections')
         .doc('userId')
         .collection('subjects')
-        .get();
-
-    for (var element in docRef.docs) {
-      cardCollections
-          .add({'subjectName': element.id, 'count': element.get('count')});
-    }
-
-    return cardCollections;
+        .get()
+        .then((value) {
+      for (var element in value.docs) {
+        cardCollections
+            .add({'subjectName': element.id, 'count': element.get('count')});
+      }
+    });
   }
 
-  saveAllCards(String collectionName, List<CardForm> cards) {
-    cards.forEach((element) async {
-      await _firebaseFirestore.collection(collectionName).add({
-        element.questionFieldController.text: element.answerFieldController.text
+  saveAllCards(String collectionName, List<CardForm> cards) async {
+    await _firebaseFirestore
+        .collection('collections')
+        .doc('userId')
+        .collection('subjects')
+        .doc(collectionName)
+        .set({'count': cards.length.toString()});
+
+    for (var element in cards) {
+      await _firebaseFirestore
+          .collection('collections')
+          .doc('userId')
+          .collection('subjects')
+          .doc(collectionName)
+          .collection('cards')
+          .add({
+        'question': element.questionFieldController.text,
+        'answer': element.answerFieldController.text
       });
-    });
+    }
   }
 }
