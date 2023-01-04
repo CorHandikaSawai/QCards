@@ -21,7 +21,6 @@ class AuthenticationService extends ChangeNotifier {
       await _firebaseAuth
           .createUserWithEmailAndPassword(email: email, password: password)
           .then((UserCredential userCredential) =>
-              //TODO: Error message not working,
               userCredential.user!.sendEmailVerification().then((_) {
                 _userService.newUserData(
                     userId: userCredential.user!.uid,

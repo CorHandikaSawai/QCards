@@ -129,15 +129,6 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
                                             passwordTxtFormController.text);
                                     if (mounted) {
                                       if (authService.response
-                                          .contains('Failed')) {
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          SnackBar(
-                                            backgroundColor: Colors.redAccent,
-                                            content: Text(authService.response),
-                                          ),
-                                        );
-                                      } else if (authService.response
                                           .contains('Success')) {
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(
@@ -146,7 +137,14 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
                                             content: Text(authService.response),
                                           ),
                                         );
-                                        Navigator.pop(context);
+                                      } else {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          SnackBar(
+                                            backgroundColor: Colors.redAccent,
+                                            content: Text(authService.response),
+                                          ),
+                                        );
                                       }
                                       firstNameTxtFormController.clear();
                                       firstNameTxtFormController.clear();
