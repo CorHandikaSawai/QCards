@@ -25,6 +25,15 @@ class CardService extends ChangeNotifier {
     });
   }
 
+  Future<void> deleteCollection({required String subjectName, requi}) async {
+    await _firebaseFirestore
+        .collection('collections')
+        .doc('userId')
+        .collection('subjects')
+        .doc('subject')
+        .delete();
+  }
+
   saveAllCards(String collectionName, List<CardForm> cards) async {
     await _firebaseFirestore
         .collection('collections')

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:free_quizme/screens/create_card_screen.dart';
-import 'package:free_quizme/services/qa_cards_service.dart';
+import 'package:free_quizme/services/card_service.dart';
 import 'package:free_quizme/widgets/collection_card.dart';
 import 'package:provider/provider.dart';
 

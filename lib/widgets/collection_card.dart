@@ -10,6 +10,33 @@ class CollectionCard extends StatelessWidget {
   final String subjectName;
   final String count;
 
+  _showDialog(String action, BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title: Text(action[0].toUpperCase() + action.substring(1)),
+        content: Text(action[0].toUpperCase() +
+            action.substring(1) +
+            ' this collection?'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: Text('Yes'),
+          ),
+          TextButton(
+            onPressed: () {
+              print('No');
+              Navigator.pop(context);
+            },
+            child: Text('No'),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -37,14 +64,18 @@ class CollectionCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       IconButton(
-                        onPressed: () => print('Delete collection'),
+                        onPressed: () {
+                          _showDialog('delete', context);
+                        },
                         icon: Icon(
                           Icons.delete,
                           color: Colors.redAccent,
                         ),
                       ),
                       IconButton(
-                        onPressed: () => print('Edit collection'),
+                        onPressed: () {
+                          _showDialog('edit', context);
+                        },
                         icon: Icon(
                           Icons.edit,
                           color: Colors.blueAccent,

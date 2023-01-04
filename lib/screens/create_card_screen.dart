@@ -3,8 +3,9 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
-import 'package:free_quizme/services/qa_cards_service.dart';
+import 'package:free_quizme/services/card_service.dart';
 import 'package:free_quizme/widgets/qa_cards.dart';
+import 'package:provider/provider.dart';
 
 class CreateCardsScreen extends StatefulWidget {
   const CreateCardsScreen({super.key, required this.collectionName});
@@ -18,10 +19,10 @@ class CreateCardsScreen extends StatefulWidget {
 class _CreateCardsScreenState extends State<CreateCardsScreen> {
   ScrollController scrollController = ScrollController();
   List<CardForm> listOfCards = [CardForm()];
-  CardService cardService = CardService();
 
   @override
   Widget build(BuildContext context) {
+    final cardService = Provider.of<CardService>(context);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,

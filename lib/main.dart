@@ -4,8 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:free_quizme/firebase_options.dart';
 import 'package:free_quizme/screens/create_card_screen.dart';
 import 'package:free_quizme/screens/homepage_screen.dart';
+import 'package:free_quizme/screens/login_user_screen.dart';
 import 'package:free_quizme/screens/quiz_screen.dart';
-import 'package:free_quizme/services/qa_cards_service.dart';
+import 'package:free_quizme/screens/register_user_screen.dart';
+import 'package:free_quizme/services/auth_service.dart';
+import 'package:free_quizme/services/card_service.dart';
+import 'package:free_quizme/services/user_service.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
@@ -16,6 +20,12 @@ void main() async {
       providers: [
         ChangeNotifierProvider(
           create: (_) => CardService(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => AuthenticationService(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => UserService(),
         ),
       ],
       child: const MyApp(),
@@ -33,7 +43,11 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Free Quizme',
       theme: ThemeData.dark(),
-      home: const MyHomePage(),
+      routes: {
+        LoginUserScreen.routeName: (context) => const LoginUserScreen(),
+        RegisterUserScreen.routeName: (context) => const RegisterUserScreen(),
+      },
+      home: const LoginUserScreen(),
     );
   }
 }
