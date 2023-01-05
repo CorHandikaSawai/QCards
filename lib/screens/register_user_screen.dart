@@ -8,8 +8,6 @@ import 'package:provider/provider.dart';
 class RegisterUserScreen extends StatefulWidget {
   const RegisterUserScreen({super.key});
 
-  static const routeName = '/register';
-
   @override
   State<RegisterUserScreen> createState() => _RegisterUserScreenState();
 }
@@ -105,7 +103,6 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
                         ),
                         validator: (value) {
                           if (value!.isEmpty ||
-                              value == null ||
                               value != passwordTxtFormController.text) {
                             return 'Must Match Password';
                           }
@@ -137,6 +134,7 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
                                             content: Text(authService.response),
                                           ),
                                         );
+                                        Navigator.of(context).pop();
                                       } else {
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(

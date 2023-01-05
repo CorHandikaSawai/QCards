@@ -1,11 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
+import 'package:free_quizme/models/qc_user_model.dart';
 import 'package:free_quizme/services/user_service.dart';
 
 class AuthenticationService extends ChangeNotifier {
   final _firebaseAuth = FirebaseAuth.instance;
   final _userService = UserService();
 
+  QCUser? currentUser;
   var isLoading = false;
   var isEmailVerified = false;
   var response = '';
@@ -55,6 +57,8 @@ class AuthenticationService extends ChangeNotifier {
           .signInWithEmailAndPassword(email: email, password: password)
           .then((UserCredential userCredential) async {
         if (userCredential.user!.emailVerified) {
+          currentUser =
+              await _userService.getUserData(userId: userCredential.user!.uid);
           response = 'Login Success';
         } else {
           response = 'Login Failed. Please verify your email';
@@ -64,6 +68,18 @@ class AuthenticationService extends ChangeNotifier {
       print(e);
     } finally {
       isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  Future<void> logout() async {
+    try {
+      await _firebaseAuth.signOut();
+      currentUser = null;
+    } catch (e) {
+      //TODO: Log error
+      print(e);
+    } finally {
       notifyListeners();
     }
   }

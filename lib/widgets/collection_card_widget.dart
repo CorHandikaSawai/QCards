@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:free_quizme/screens/homepage_screen.dart';
+import 'package:free_quizme/services/auth_service.dart';
+import 'package:free_quizme/services/card_service.dart';
+import 'package:provider/provider.dart';
 
 class CollectionCard extends StatelessWidget {
   const CollectionCard({
@@ -10,7 +14,7 @@ class CollectionCard extends StatelessWidget {
   final String subjectName;
   final String count;
 
-  _showDialog(String action, BuildContext context) {
+  _showDialog(String action, BuildContext context, userId) {
     showDialog(
       context: context,
       builder: (BuildContext context) => AlertDialog(
@@ -20,17 +24,27 @@ class CollectionCard extends StatelessWidget {
             ' this collection?'),
         actions: [
           TextButton(
-            onPressed: () {
-              Navigator.pop(context);
+            onPressed: () async {
+              if (action == 'delete') {
+                await CardService()
+                    .deleteCollection(subjectName: subjectName, userId: userId)
+                    .then(
+                      (_) => Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const HomePageScreen(),
+                          ),
+                          (route) => false),
+                    );
+              }
             },
-            child: Text('Yes'),
+            child: const Text('Yes'),
           ),
           TextButton(
             onPressed: () {
-              print('No');
               Navigator.pop(context);
             },
-            child: Text('No'),
+            child: const Text('No'),
           ),
         ],
       ),
@@ -39,10 +53,11 @@ class CollectionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final authService = Provider.of<AuthenticationService>(context);
     return InkWell(
       onTap: () => print('Go to this collection'),
       child: SizedBox(
-        height: 200,
+        height: 100,
         child: Card(
           color: Colors.black12,
           child: Padding(
@@ -65,7 +80,8 @@ class CollectionCard extends StatelessWidget {
                     children: [
                       IconButton(
                         onPressed: () {
-                          _showDialog('delete', context);
+                          _showDialog('delete', context,
+                              authService.currentUser!.userId);
                         },
                         icon: Icon(
                           Icons.delete,
@@ -74,7 +90,8 @@ class CollectionCard extends StatelessWidget {
                       ),
                       IconButton(
                         onPressed: () {
-                          _showDialog('edit', context);
+                          _showDialog(
+                              'edit', context, authService.currentUser!.userId);
                         },
                         icon: Icon(
                           Icons.edit,

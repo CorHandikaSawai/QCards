@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class CardForm extends StatefulWidget {
-  CardForm({
+class CardFormWidget extends StatefulWidget {
+  CardFormWidget({
     Key? key,
   }) : super(key: key);
 
@@ -9,10 +9,10 @@ class CardForm extends StatefulWidget {
   final TextEditingController answerFieldController = TextEditingController();
 
   @override
-  State<CardForm> createState() => _CardFormState();
+  State<CardFormWidget> createState() => _CardFormWidgetState();
 }
 
-class _CardFormState extends State<CardForm> {
+class _CardFormWidgetState extends State<CardFormWidget> {
   var counter = 0;
   @override
   Widget build(BuildContext context) {

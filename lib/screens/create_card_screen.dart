@@ -1,16 +1,14 @@
-import 'dart:developer';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
+import 'package:free_quizme/screens/homepage_screen.dart';
 import 'package:free_quizme/services/card_service.dart';
-import 'package:free_quizme/widgets/qa_cards.dart';
+import 'package:free_quizme/widgets/card_form_widget.dart';
 import 'package:provider/provider.dart';
 
 class CreateCardsScreen extends StatefulWidget {
-  const CreateCardsScreen({super.key, required this.collectionName});
+  const CreateCardsScreen({super.key, required this.subjectName});
 
-  final String? collectionName;
+  final String? subjectName;
 
   @override
   State<CreateCardsScreen> createState() => _CreateCardsScreenState();
@@ -18,7 +16,7 @@ class CreateCardsScreen extends StatefulWidget {
 
 class _CreateCardsScreenState extends State<CreateCardsScreen> {
   ScrollController scrollController = ScrollController();
-  List<CardForm> listOfCards = [CardForm()];
+  List<CardFormWidget> listOfCards = [CardFormWidget()];
 
   @override
   Widget build(BuildContext context) {
@@ -26,13 +24,13 @@ class _CreateCardsScreenState extends State<CreateCardsScreen> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text(widget.collectionName.toString()),
+        title: Text(widget.subjectName.toString()),
         actions: [
           Tab(
             child: IconButton(
               onPressed: () {
                 setState(() {
-                  listOfCards.add(CardForm());
+                  listOfCards.add(CardFormWidget());
                 });
                 scrollController.animateTo(
                     scrollController.position.minScrollExtent,
@@ -58,12 +56,23 @@ class _CreateCardsScreenState extends State<CreateCardsScreen> {
       ),
       bottomNavigationBar: BottomAppBar(
         child: IconButton(
-          onPressed: () {
-            cardService.saveAllCards(
-                widget.collectionName.toString(), listOfCards);
-            //TODO: empty the list, show success messages and redirect user to homepage or their new card collection.
+          onPressed: () async {
+            await cardService.saveAllCards(
+                userId: FirebaseAuth.instance.currentUser!.uid,
+                subjectName: widget.subjectName.toString(),
+                cards: listOfCards);
+            if (mounted) {
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const HomePageScreen(),
+                  ),
+                  (route) => false);
+            }
           },
-          icon: Icon(Icons.save),
+          icon: cardService.isLoading
+              ? const CircularProgressIndicator.adaptive()
+              : const Icon(Icons.save),
         ),
       ),
     );

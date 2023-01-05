@@ -8,7 +8,6 @@ import 'package:provider/provider.dart';
 
 class LoginUserScreen extends StatefulWidget {
   const LoginUserScreen({super.key});
-  static const routeName = '/login';
 
   @override
   State<LoginUserScreen> createState() => _LoginUserScreenState();
@@ -97,12 +96,13 @@ class _LoginUserScreenState extends State<LoginUserScreen> {
                                       );
                                     } else if (authService.response
                                         .contains('Success')) {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => MyHomePage(),
-                                        ),
-                                      );
+                                      Navigator.pushAndRemoveUntil(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                const HomePageScreen(),
+                                          ),
+                                          (route) => false);
                                     }
                                   }
                                 },
@@ -113,8 +113,13 @@ class _LoginUserScreenState extends State<LoginUserScreen> {
                         alignment: Alignment.bottomRight,
                         child: TextButton(
                           onPressed: () {
-                            Navigator.of(context)
-                                .pushNamed(RegisterUserScreen.routeName);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    const RegisterUserScreen(),
+                              ),
+                            );
                           },
                           child: const Text('Register'),
                         ),
