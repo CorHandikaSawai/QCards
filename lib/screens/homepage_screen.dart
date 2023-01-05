@@ -50,7 +50,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
             body: SafeArea(
               minimum: const EdgeInsets.all(8),
               child: FutureBuilder(
-                future: cardService.getUserCollections(
+                future: cardService.getUserSubjects(
                     userId: FirebaseAuth.instance.currentUser!.uid),
                 builder: (context,
                     AsyncSnapshot<List<Map<String, String>>> snapshot) {

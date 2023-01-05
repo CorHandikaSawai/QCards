@@ -8,7 +8,7 @@ class CardService extends ChangeNotifier {
   final _firestore = FirebaseFirestore.instance;
   bool isLoading = false;
 
-  Future<List<Map<String, String>>> getUserCollections(
+  Future<List<Map<String, String>>> getUserSubjects(
       {required String userId}) async {
     List<Map<String, String>> cardCollections = [];
     try {
@@ -48,7 +48,7 @@ class CardService extends ChangeNotifier {
     }
   }
 
-  saveAllCards(
+  Future<void> saveAllCards(
       {required String userId,
       required String subjectName,
       required List<CardFormWidget> cards}) async {
@@ -80,5 +80,32 @@ class CardService extends ChangeNotifier {
       isLoading = false;
       notifyListeners();
     }
+  }
+
+  Future<List<Map<String, String>>> getCardsFromSubject(
+      {required String userId, required String subjectName}) async {
+    List<Map<String, String>> questionsAnwers = [];
+    try {
+      await _firestore
+          .collection('collections')
+          .doc(userId)
+          .collection('subjects')
+          .doc(subjectName)
+          .collection('cards')
+          .get()
+          .then(
+        (cards) {
+          for (var card in cards.docs) {
+            questionsAnwers.add({
+              'question': card.get('question'),
+              'answer': card.get('answer'),
+            });
+          }
+        },
+      );
+    } catch (e) {
+      print(e);
+    }
+    return questionsAnwers;
   }
 }

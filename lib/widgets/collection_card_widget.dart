@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:free_quizme/screens/homepage_screen.dart';
+import 'package:free_quizme/screens/study_screen.dart';
 import 'package:free_quizme/services/auth_service.dart';
 import 'package:free_quizme/services/card_service.dart';
 import 'package:provider/provider.dart';
@@ -19,9 +20,8 @@ class CollectionCard extends StatelessWidget {
       context: context,
       builder: (BuildContext context) => AlertDialog(
         title: Text(action[0].toUpperCase() + action.substring(1)),
-        content: Text(action[0].toUpperCase() +
-            action.substring(1) +
-            ' this collection?'),
+        content: Text(
+            '${action[0].toUpperCase()} ${action.substring(1)} this collection?'),
         actions: [
           TextButton(
             onPressed: () async {
@@ -55,13 +55,20 @@ class CollectionCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final authService = Provider.of<AuthenticationService>(context);
     return InkWell(
-      onTap: () => print('Go to this collection'),
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => StudyScreen(subjectName: subjectName),
+          ),
+        );
+      },
       child: SizedBox(
         height: 100,
         child: Card(
           color: Colors.black12,
           child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 8, horizontal: 0),
+            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 0),
             child: Column(
               children: [
                 Expanded(
@@ -83,7 +90,7 @@ class CollectionCard extends StatelessWidget {
                           _showDialog('delete', context,
                               authService.currentUser!.userId);
                         },
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.delete,
                           color: Colors.redAccent,
                         ),
@@ -93,7 +100,7 @@ class CollectionCard extends StatelessWidget {
                           _showDialog(
                               'edit', context, authService.currentUser!.userId);
                         },
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.edit,
                           color: Colors.blueAccent,
                         ),
