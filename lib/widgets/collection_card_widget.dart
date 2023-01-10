@@ -21,7 +21,7 @@ class CollectionCard extends StatelessWidget {
       builder: (BuildContext context) => AlertDialog(
         title: Text(action[0].toUpperCase() + action.substring(1)),
         content: Text(
-            '${action[0].toUpperCase()} ${action.substring(1)} this collection?'),
+            '${action[0].toUpperCase()}${action.substring(1)} this collection?'),
         actions: [
           TextButton(
             onPressed: () async {
