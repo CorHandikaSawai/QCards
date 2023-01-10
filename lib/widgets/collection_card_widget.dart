@@ -59,7 +59,10 @@ class CollectionCard extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => StudyScreen(subjectName: subjectName),
+            builder: (context) => StudyScreen(
+              subjectName: subjectName,
+              userId: authService.currentUser!.userId,
+            ),
           ),
         );
       },

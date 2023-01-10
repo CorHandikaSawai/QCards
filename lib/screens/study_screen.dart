@@ -1,4 +1,3 @@
-import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
 import 'package:free_quizme/services/auth_service.dart';
 import 'package:free_quizme/services/card_service.dart';
@@ -6,65 +5,65 @@ import 'package:free_quizme/widgets/flippable_card_widget.dart';
 import 'package:provider/provider.dart';
 
 class StudyScreen extends StatefulWidget {
-  const StudyScreen({super.key, required this.subjectName});
+  const StudyScreen(
+      {super.key, required this.subjectName, required this.userId});
 
   final String subjectName;
+  final String userId;
 
   @override
   State<StudyScreen> createState() => _StudyScreenState();
 }
 
 class _StudyScreenState extends State<StudyScreen> {
-  int _currentCardIndex = 0;
-  int _totalCards = 0;
   List<Widget> flippableCards = [];
+  int _currentCardIndex = 0;
+
+  void getCards() async {
+    final cards = await CardService().getCardsFromSubject(
+        userId: widget.userId, subjectName: widget.subjectName);
+    if (cards.isNotEmpty) {
+      for (var card in cards) {
+        flippableCards.add(
+          Visibility(
+            visible: true,
+            child: FlippableCardWidget(
+              question: card['question']!,
+              answer: card['answer']!,
+            ),
+          ),
+        );
+      }
+    }
+    setState(() {
+      flippableCards;
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getCards();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final cardService = Provider.of<CardService>(context);
-    final authService = Provider.of<AuthenticationService>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.subjectName),
       ),
       body: SafeArea(
-        minimum: EdgeInsets.all(8.0),
+        minimum: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-            FutureBuilder(
-              future: cardService.getCardsFromSubject(
-                  userId: 'YYhfgaVi4DPkf0rmdD3AL6p2C752', subjectName: 'eat'),
-              builder: (BuildContext context,
-                  AsyncSnapshot<List<Map<String, String>>> snapshot) {
-                if (snapshot.hasData) {
-                  _totalCards = -1;
-                  final cards = snapshot.data!;
-                  for (var card in cards) {
-                    flippableCards.add(
-                      Visibility(
-                        visible: true,
-                        child: FlippableCardWidget(
-                          question: card['question']!,
-                          answer: card['answer']!,
-                        ),
-                      ),
-                    );
-                    _totalCards++;
-                  }
-                  return Expanded(
-                    flex: 6,
-                    child: flippableCards[_currentCardIndex],
-                  );
-                } else if (snapshot.connectionState ==
-                    ConnectionState.waiting) {
-                  return const SizedBox(
-                    height: 50,
-                    width: 50,
-                    child: CircularProgressIndicator.adaptive(),
-                  );
-                }
-                return Text('No Data');
-              },
+            Expanded(
+              flex: 6,
+              child: flippableCards.isNotEmpty
+                  ? flippableCards[_currentCardIndex]
+                  : const Center(
+                      child: CircularProgressIndicator.adaptive(),
+                    ),
             ),
             Expanded(
               child: Row(
@@ -90,7 +89,7 @@ class _StudyScreenState extends State<StudyScreen> {
                       ),
                       child: InkWell(
                         onTap: () {
-                          if (_currentCardIndex > _totalCards - 2) {
+                          if (_currentCardIndex >= flippableCards.length - 1) {
                             setState(() {
                               _currentCardIndex = 0;
                             });

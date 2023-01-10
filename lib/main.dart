@@ -1,6 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:free_quizme/firebase_options.dart';
+import 'package:free_quizme/screens/homepage_screen.dart';
+import 'package:free_quizme/screens/login_user_screen.dart';
 import 'package:free_quizme/screens/study_screen.dart';
 import 'package:free_quizme/services/auth_service.dart';
 import 'package:free_quizme/services/card_service.dart';
@@ -38,9 +40,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Free Quizme',
       theme: ThemeData.dark(),
-      home: const StudyScreen(
-        subjectName: 'Subject Name',
-      ),
+      home: const LoginUserScreen(),
     );
   }
 }

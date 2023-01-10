@@ -1,8 +1,4 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 class Flashcard extends StatefulWidget {
   const Flashcard({super.key, required this.height, required this.width});
@@ -29,7 +25,7 @@ class _FlashcardState extends State<Flashcard> {
         });
       },
       child: AnimatedCrossFade(
-        duration: Duration(seconds: 1),
+        duration: const Duration(seconds: 1),
         firstChild: Container(
           color: Colors.blueAccent,
           height: widget.height,
