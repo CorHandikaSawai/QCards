@@ -27,7 +27,7 @@ class _LoginUserScreenState extends State<LoginUserScreen> {
         key: formKey,
         child: Align(
           alignment: Alignment.center,
-          child: Container(
+          child: SizedBox(
             width: size.width * 0.50,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -53,7 +53,7 @@ class _LoginUserScreenState extends State<LoginUserScreen> {
                         ),
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         validator: (value) {
-                          if (value!.isEmpty || value == null) {
+                          if (value!.isEmpty) {
                             return 'Cannot Be Empty';
                           }
                           return null;
@@ -66,7 +66,7 @@ class _LoginUserScreenState extends State<LoginUserScreen> {
                         ),
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         validator: (value) {
-                          if (value!.isEmpty || value == null) {
+                          if (value!.isEmpty) {
                             return 'Cannot Be Empty';
                           }
                           return null;
