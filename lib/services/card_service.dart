@@ -8,9 +8,10 @@ class CardService extends ChangeNotifier {
   final _firestore = FirebaseFirestore.instance;
   bool isLoading = false;
 
+  ///Returns a list of map containing all subjects <subjectName, numOfCards>
   Future<List<Map<String, String>>> getUserSubjects(
       {required String userId}) async {
-    List<Map<String, String>> cardCollections = [];
+    List<Map<String, String>> allSubjects = [];
     try {
       await _firestore
           .collection('collections')
@@ -19,16 +20,17 @@ class CardService extends ChangeNotifier {
           .get()
           .then((value) {
         for (var element in value.docs) {
-          cardCollections
+          allSubjects
               .add({'subjectName': element.id, 'count': element.get('count')});
         }
       });
     } catch (e) {
       print(e);
     }
-    return cardCollections;
+    return allSubjects;
   }
 
+  ///Delete a subject containing questions and anwers
   Future<void> deleteCollection(
       {required String subjectName, required String userId}) async {
     isLoading = true;
@@ -48,6 +50,7 @@ class CardService extends ChangeNotifier {
     }
   }
 
+  ///Saves all the questions and answers user has entered
   Future<void> saveAllCards(
       {required String userId,
       required String subjectName,
@@ -82,6 +85,7 @@ class CardService extends ChangeNotifier {
     }
   }
 
+  ///Returns a list of map containing all questions and answers from a specific subject <question, answer>
   Future<List<Map<String, String>>> getCardsFromSubject(
       {required String userId, required String subjectName}) async {
     List<Map<String, String>> questionsAnwers = [];
