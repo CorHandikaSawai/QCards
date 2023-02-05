@@ -17,6 +17,7 @@ class _LoginUserScreenState extends State<LoginUserScreen> {
   final emailTxtFormController = TextEditingController();
   final passwordTxtFormController = TextEditingController();
   final formKey = GlobalKey<FormState>();
+  bool obscurePassword = true;
 
   @override
   Widget build(BuildContext context) {
@@ -47,6 +48,7 @@ class _LoginUserScreenState extends State<LoginUserScreen> {
                   child: Column(
                     children: [
                       TextFormField(
+                        keyboardType: TextInputType.emailAddress,
                         controller: emailTxtFormController,
                         decoration: const InputDecoration(
                           label: Text('Email'),
@@ -60,9 +62,20 @@ class _LoginUserScreenState extends State<LoginUserScreen> {
                         },
                       ),
                       TextFormField(
+                        obscureText: obscurePassword,
                         controller: passwordTxtFormController,
-                        decoration: const InputDecoration(
-                          label: Text('Password'),
+                        decoration: InputDecoration(
+                          label: const Text('Password'),
+                          suffix: IconButton(
+                            onPressed: () {
+                              setState(() {
+                                obscurePassword = !obscurePassword;
+                              });
+                            },
+                            icon: obscurePassword
+                                ? Icon(Icons.visibility_off)
+                                : Icon(Icons.visibility),
+                          ),
                         ),
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         validator: (value) {
@@ -86,15 +99,6 @@ class _LoginUserScreenState extends State<LoginUserScreen> {
                                   }
                                   if (mounted) {
                                     if (authService.response
-                                        .contains('Failed')) {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
-                                        SnackBar(
-                                          backgroundColor: Colors.redAccent,
-                                          content: Text(authService.response),
-                                        ),
-                                      );
-                                    } else if (authService.response
                                         .contains('Success')) {
                                       Navigator.pushAndRemoveUntil(
                                           context,
@@ -103,6 +107,14 @@ class _LoginUserScreenState extends State<LoginUserScreen> {
                                                 const HomePageScreen(),
                                           ),
                                           (route) => false);
+                                    } else {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        SnackBar(
+                                          backgroundColor: Colors.redAccent,
+                                          content: Text(authService.response),
+                                        ),
+                                      );
                                     }
                                   }
                                 },

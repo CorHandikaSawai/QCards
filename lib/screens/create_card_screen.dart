@@ -34,10 +34,10 @@ class _CreateCardsScreenState extends State<CreateCardsScreen> {
                 });
                 scrollController.animateTo(
                     scrollController.position.minScrollExtent,
-                    duration: Duration(milliseconds: 300),
+                    duration: const Duration(milliseconds: 300),
                     curve: Curves.easeInOut);
               },
-              icon: Icon(Icons.add),
+              icon: const Icon(Icons.add),
             ),
           )
         ],

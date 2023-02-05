@@ -20,7 +20,9 @@ class CollectionCard extends StatelessWidget {
     showDialog(
       context: context,
       builder: (BuildContext context) => AlertDialog(
-        title: Text(action[0].toUpperCase() + action.substring(1)),
+        title: Text(
+          action[0].toUpperCase() + action.substring(1),
+        ),
         content: Text(
             '${action[0].toUpperCase()}${action.substring(1)} this collection?'),
         actions: [
@@ -84,7 +86,7 @@ class CollectionCard extends StatelessWidget {
         );
       },
       child: SizedBox(
-        height: 100,
+        height: 150,
         child: Card(
           color: Colors.black12,
           child: Padding(
@@ -95,8 +97,18 @@ class CollectionCard extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Text(subjectName),
-                      Text('$count cards'),
+                      Text(
+                        subjectName,
+                        style: TextStyle(
+                          fontSize: 24,
+                        ),
+                      ),
+                      Text(
+                        '$count cards',
+                        style: TextStyle(
+                          fontSize: 16,
+                        ),
+                      ),
                     ],
                   ),
                 ),

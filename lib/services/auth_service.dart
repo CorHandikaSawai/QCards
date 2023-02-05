@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:free_quizme/models/qc_user_model.dart';
 import 'package:free_quizme/services/user_service.dart';
@@ -64,8 +65,15 @@ class AuthenticationService extends ChangeNotifier {
           response = 'Login Failed. Please verify your email';
         }
       });
-    } catch (e) {
-      print(e);
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'invalid-email') {
+        response =
+            e.code[0].toUpperCase() + e.code.replaceAll('-', ' ').substring(1);
+      } else if (e.code == 'user-disabled') {
+        response = 'User is disabled. Please contact support.';
+      } else {
+        response = 'Incorrect email or password.';
+      }
     } finally {
       isLoading = false;
       notifyListeners();
