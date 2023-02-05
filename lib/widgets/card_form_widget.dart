@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 
 class CardFormWidget extends StatefulWidget {
-  CardFormWidget({super.key});
+  CardFormWidget(
+      {super.key, this.initialAnswer, this.initialQuestion, this.cardId});
 
   final TextEditingController questionFieldController = TextEditingController();
   final TextEditingController answerFieldController = TextEditingController();
+  final String? initialQuestion;
+  final String? initialAnswer;
+  final String? cardId;
 
   @override
   State<CardFormWidget> createState() => _CardFormWidgetState();
@@ -12,6 +16,18 @@ class CardFormWidget extends StatefulWidget {
 
 class _CardFormWidgetState extends State<CardFormWidget> {
   var counter = 0;
+
+  @override
+  void initState() {
+    if (widget.initialQuestion != null) {
+      widget.questionFieldController.text = widget.initialQuestion!;
+    }
+    if (widget.initialAnswer != null) {
+      widget.answerFieldController.text = widget.initialAnswer!;
+    }
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
