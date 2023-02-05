@@ -70,8 +70,8 @@ class _EditCardsScreenState extends State<EditCardsScreen> {
       ),
       bottomNavigationBar: BottomAppBar(
         child: IconButton(
-          onPressed: () {
-            cardService.saveAllCards(
+          onPressed: () async {
+            await cardService.saveAllCards(
                 userId: FirebaseAuth.instance.currentUser!.uid,
                 subjectName: widget.subjectName.toString(),
                 cards: listOfCards);
