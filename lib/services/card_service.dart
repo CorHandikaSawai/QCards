@@ -57,25 +57,34 @@ class CardService extends ChangeNotifier {
       required List<CardFormWidget> cards}) async {
     isLoading = true;
     notifyListeners();
-    try {
-      await _firestore
-          .collection('collections')
-          .doc(userId)
-          .collection('subjects')
-          .doc(subjectName)
-          .set({'count': cards.length.toString()});
+    int numOfCards = 0;
 
-      for (var element in cards) {
+    try {
+      for (var card in cards) {
+        //Only save cards that are not completely empty
+        if (card.answerFieldController.text.isNotEmpty ||
+            card.questionFieldController.text.isNotEmpty) {
+          await _firestore
+              .collection('collections')
+              .doc(userId)
+              .collection('subjects')
+              .doc(subjectName)
+              .collection('cards')
+              .add({
+            'question': card.questionFieldController.text,
+            'answer': card.answerFieldController.text
+          });
+          numOfCards++;
+        }
+      }
+      //Card counts
+      if (numOfCards != 0) {
         await _firestore
             .collection('collections')
             .doc(userId)
             .collection('subjects')
             .doc(subjectName)
-            .collection('cards')
-            .add({
-          'question': element.questionFieldController.text,
-          'answer': element.answerFieldController.text
-        });
+            .set({'count': numOfCards.toString()});
       }
     } catch (e) {
       print(e);
