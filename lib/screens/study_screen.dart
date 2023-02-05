@@ -42,7 +42,6 @@ class _StudyScreenState extends State<StudyScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getCards();
   }
