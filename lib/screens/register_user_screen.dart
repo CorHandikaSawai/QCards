@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -54,7 +56,7 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
                           label: Text('First Name'),
                         ),
                         validator: (value) {
-                          if (value!.isEmpty || value == null) {
+                          if (value!.isEmpty) {
                             return 'Cannot Be Empty';
                           }
                           return null;
@@ -66,37 +68,40 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
                           label: Text('Last Name'),
                         ),
                         validator: (value) {
-                          if (value!.isEmpty || value == null) {
+                          if (value!.isEmpty) {
                             return 'Cannot Be Empty';
                           }
                           return null;
                         },
                       ),
                       TextFormField(
+                        keyboardType: TextInputType.emailAddress,
                         controller: emailTxtFormController,
                         decoration: const InputDecoration(
                           label: Text('Email'),
                         ),
                         validator: (value) {
-                          if (value!.isEmpty || value == null) {
+                          if (value!.isEmpty) {
                             return 'Cannot Be Empty';
                           }
                           return null;
                         },
                       ),
                       TextFormField(
+                        obscureText: true,
                         controller: passwordTxtFormController,
                         decoration: const InputDecoration(
                           label: Text('Password'),
                         ),
                         validator: (value) {
-                          if (value!.isEmpty || value == null) {
+                          if (value!.isEmpty) {
                             return 'Cannot Be Empty';
                           }
                           return null;
                         },
                       ),
                       TextFormField(
+                        obscureText: true,
                         controller: confirmPasswordTxtFormController,
                         decoration: const InputDecoration(
                           label: Text('Confirm Password'),
