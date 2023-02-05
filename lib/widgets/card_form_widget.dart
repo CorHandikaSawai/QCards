@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 
 class CardFormWidget extends StatefulWidget {
-  CardFormWidget({
-    Key? key,
-  }) : super(key: key);
+  CardFormWidget({super.key});
 
   final TextEditingController questionFieldController = TextEditingController();
   final TextEditingController answerFieldController = TextEditingController();
@@ -17,7 +15,7 @@ class _CardFormWidgetState extends State<CardFormWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(10.0),
+      margin: const EdgeInsets.all(10.0),
       color: Colors.black12,
       child: InkWell(
         onLongPress: () {
@@ -27,52 +25,48 @@ class _CardFormWidgetState extends State<CardFormWidget> {
           showDialog(
             context: context,
             builder: (BuildContext context) => AlertDialog(
-              title: Text('Delete'),
-              content: Text('Delete this card?'),
+              title: const Text('Delete'),
+              content: const Text('Delete this card?'),
               actions: [
                 TextButton(
                   onPressed: () {
                     print('Yes');
                     Navigator.pop(context);
                   },
-                  child: Text('Yes'),
+                  child: const Text('Yes'),
                 ),
                 TextButton(
                   onPressed: () {
                     print('No');
                     Navigator.pop(context);
                   },
-                  child: Text('No'),
+                  child: const Text('No'),
                 ),
               ],
             ),
           );
         },
         child: Container(
-          padding: EdgeInsets.all(25.0),
+          padding: const EdgeInsets.all(25.0),
           child: Column(
             children: [
               Container(
-                margin: EdgeInsets.all(5),
-                child: Text('Question $counter'),
+                margin: const EdgeInsets.all(5),
+                child: const Text('Question'),
+              ),
+              TextFormField(
+                controller: widget.questionFieldController,
+                keyboardType: TextInputType.multiline,
+                maxLines: null,
               ),
               Container(
-                child: TextFormField(
-                  controller: widget.questionFieldController,
-                  keyboardType: TextInputType.multiline,
-                  maxLines: null,
-                ),
+                margin: const EdgeInsets.all(5),
+                child: const Text('Answer'),
               ),
-              Container(
-                margin: EdgeInsets.all(5),
-                child: Text('Answer'),
-              ),
-              Container(
-                child: TextFormField(
-                  controller: widget.answerFieldController,
-                  keyboardType: TextInputType.multiline,
-                  maxLines: null,
-                ),
+              TextFormField(
+                controller: widget.answerFieldController,
+                keyboardType: TextInputType.multiline,
+                maxLines: null,
               ),
             ],
           ),
