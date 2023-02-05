@@ -21,6 +21,19 @@ class _EditCardsScreenState extends State<EditCardsScreen> {
   List<CardFormWidget> listOfCards = [];
 
   @override
+  void initState() {
+    listOfCards.clear();
+    for (var card in widget.cards) {
+      listOfCards.add(CardFormWidget(
+        initialQuestion: card['question'],
+        initialAnswer: card['answer'],
+        cardId: card['cardId'],
+      ));
+    }
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final cardService = Provider.of<CardService>(context);
     return Scaffold(
@@ -57,8 +70,8 @@ class _EditCardsScreenState extends State<EditCardsScreen> {
       ),
       bottomNavigationBar: BottomAppBar(
         child: IconButton(
-          onPressed: () async {
-            await cardService.saveAllCards(
+          onPressed: () {
+            cardService.saveAllCards(
                 userId: FirebaseAuth.instance.currentUser!.uid,
                 subjectName: widget.subjectName.toString(),
                 cards: listOfCards);
