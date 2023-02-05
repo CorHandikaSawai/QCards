@@ -185,7 +185,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                       onPressed: () async {
                         await authService.logout();
                       },
-                      child: Text(
+                      child: const Text(
                         'Logout',
                         style: TextStyle(color: Colors.redAccent),
                       ),
