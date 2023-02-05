@@ -76,7 +76,7 @@ class _StudyScreenState extends State<StudyScreen> {
                         border: Border.all(color: Colors.white),
                       ),
                       child: InkWell(
-                        onTap: () => print('Left'),
+                        onTap: () => print('Left'), //TODO: Implement this
                         child: Icon(Icons.arrow_left),
                       ),
                     ),
