@@ -1,7 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:free_quizme/services/user_service.dart';
 import 'package:free_quizme/widgets/card_form_widget.dart';
 
 class CardService extends ChangeNotifier {
