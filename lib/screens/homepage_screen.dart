@@ -18,11 +18,21 @@ class _HomePageScreenState extends State<HomePageScreen> {
   final _formKey = GlobalKey<FormState>();
   final _collectionNameTextFormController = TextEditingController();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+  final List<String> _sortingList = <String>['Recent', 'A-Z', 'Z-A'];
+  late String _sortValue;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _sortValue = _sortingList.first;
+  }
 
   @override
   Widget build(BuildContext context) {
     final cardService = Provider.of<CardService>(context);
     final authService = Provider.of<AuthenticationService>(context);
+
     return authService.currentUser == null
         ? const Scaffold(
             body: Center(
@@ -51,7 +61,8 @@ class _HomePageScreenState extends State<HomePageScreen> {
               minimum: const EdgeInsets.all(8),
               child: FutureBuilder(
                 future: cardService.getUserSubjects(
-                    userId: FirebaseAuth.instance.currentUser!.uid),
+                  userId: FirebaseAuth.instance.currentUser!.uid,
+                ),
                 builder: (context,
                     AsyncSnapshot<List<Map<String, String>>> snapshot) {
                   List<Widget> subjects = [];
@@ -69,8 +80,33 @@ class _HomePageScreenState extends State<HomePageScreen> {
                     //TODO: write to log file or user database log
                     print(snapshot.error);
                   }
-                  return ListView(
-                    children: subjects,
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: DropdownButton(
+                          value: _sortValue,
+                          items: _sortingList
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                          onChanged: (value) {
+                            setState(() {
+                              _sortValue = value!;
+                            });
+                          },
+                        ),
+                      ),
+                      Expanded(
+                        child: ListView(
+                          children: subjects,
+                        ),
+                      ),
+                    ],
                   );
                 },
               ),
@@ -138,15 +174,24 @@ class _HomePageScreenState extends State<HomePageScreen> {
               child: const Icon(Icons.library_add_rounded),
             ),
             endDrawer: Drawer(
-              child: Column(
-                children: [
-                  TextButton(
-                    onPressed: () async {
-                      await authService.logout();
-                    },
-                    child: const Icon(Icons.logout),
-                  ),
-                ],
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                        '${authService.currentUser!.firstName.toString()} ${authService.currentUser!.lastName.toString()}'),
+                    TextButton(
+                      onPressed: () async {
+                        await authService.logout();
+                      },
+                      child: Text(
+                        'Logout',
+                        style: TextStyle(color: Colors.redAccent),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           );
