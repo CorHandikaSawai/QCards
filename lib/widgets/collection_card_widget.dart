@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:free_quizme/screens/edit_card_screen.dart';
 import 'package:free_quizme/screens/homepage_screen.dart';
 import 'package:free_quizme/screens/study_screen.dart';
 import 'package:free_quizme/services/auth_service.dart';
@@ -35,6 +36,22 @@ class CollectionCard extends StatelessWidget {
                           context,
                           MaterialPageRoute(
                             builder: (context) => const HomePageScreen(),
+                          ),
+                          (route) => false),
+                    );
+              }
+              if (action == 'edit') {
+                await CardService()
+                    .getCardsFromSubject(
+                        subjectName: subjectName, userId: userId)
+                    .then(
+                      (cards) => Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => EditCardsScreen(
+                              subjectName: subjectName,
+                              cards: cards,
+                            ),
                           ),
                           (route) => false),
                     );
