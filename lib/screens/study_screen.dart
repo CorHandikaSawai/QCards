@@ -75,8 +75,18 @@ class _StudyScreenState extends State<StudyScreen> {
                         border: Border.all(color: Colors.white),
                       ),
                       child: InkWell(
-                        onTap: () => print('Left'), //TODO: Implement this
-                        child: Icon(Icons.arrow_left),
+                        onTap: () {
+                          if (_currentCardIndex <= 0) {
+                            setState(() {
+                              _currentCardIndex = flippableCards.length - 1;
+                            });
+                          } else {
+                            setState(() {
+                              _currentCardIndex--;
+                            });
+                          }
+                        },
+                        child: const Icon(Icons.arrow_left),
                       ),
                     ),
                   ),
@@ -98,7 +108,7 @@ class _StudyScreenState extends State<StudyScreen> {
                             });
                           }
                         },
-                        child: Icon(Icons.arrow_right),
+                        child: const Icon(Icons.arrow_right),
                       ),
                     ),
                   ),

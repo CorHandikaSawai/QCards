@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:free_quizme/widgets/card_form_widget.dart';
 
@@ -39,6 +40,26 @@ class CardService extends ChangeNotifier {
           .doc(userId)
           .collection('subjects')
           .doc(subjectName)
+          .collection('cards')
+          .get()
+          .then((value) async => {
+                for (var doc in value.docs)
+                  {
+                    await _firestore
+                        .collection('collections')
+                        .doc(userId)
+                        .collection('subjects')
+                        .doc(subjectName)
+                        .collection('cards')
+                        .doc(doc.id)
+                        .delete()
+                  }
+              });
+      await _firestore
+          .collection('collections')
+          .doc(userId)
+          .collection('subjects')
+          .doc(subjectName)
           .delete();
     } catch (e) {
       print(e);
@@ -56,22 +77,37 @@ class CardService extends ChangeNotifier {
     isLoading = true;
     notifyListeners();
     int numOfCards = 0;
-
     try {
       for (var card in cards) {
         //Only save cards that are not completely empty
         if (card.answerFieldController.text.isNotEmpty ||
             card.questionFieldController.text.isNotEmpty) {
-          await _firestore
-              .collection('collections')
-              .doc(userId)
-              .collection('subjects')
-              .doc(subjectName)
-              .collection('cards')
-              .add({
-            'question': card.questionFieldController.text,
-            'answer': card.answerFieldController.text
-          });
+          //Edited cards
+          if (card.cardId != null) {
+            _firestore
+                .collection('collections')
+                .doc(userId)
+                .collection('subjects')
+                .doc(subjectName)
+                .collection('cards')
+                .doc(card.cardId)
+                .set({
+              'question': card.questionFieldController.text,
+              'answer': card.answerFieldController.text
+            });
+          } else {
+            //New cards
+            await _firestore
+                .collection('collections')
+                .doc(userId)
+                .collection('subjects')
+                .doc(subjectName)
+                .collection('cards')
+                .add({
+              'question': card.questionFieldController.text,
+              'answer': card.answerFieldController.text
+            });
+          }
           numOfCards++;
         }
       }
@@ -82,7 +118,11 @@ class CardService extends ChangeNotifier {
             .doc(userId)
             .collection('subjects')
             .doc(subjectName)
-            .set({'count': numOfCards.toString()});
+            .set({
+          'count': numOfCards.toString(),
+        });
+      } else {
+        await deleteCollection(subjectName: subjectName, userId: userId);
       }
     } catch (e) {
       print(e);
@@ -110,6 +150,7 @@ class CardService extends ChangeNotifier {
             questionsAnwers.add({
               'question': card.get('question'),
               'answer': card.get('answer'),
+              'cardId': card.id
             });
           }
         },
