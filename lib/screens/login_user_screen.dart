@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:free_quizme/screens/homepage_screen.dart';
 import 'package:free_quizme/screens/register_user_screen.dart';
 import 'package:free_quizme/services/auth_service.dart';
@@ -120,6 +121,18 @@ class _LoginUserScreenState extends State<LoginUserScreen> {
                                 },
                                 child: const Text('Login'),
                               ),
+                      ),
+                      SignInButton(
+                        Buttons.GoogleDark,
+                        onPressed: () async {
+                          if (formKey.currentState!.validate()) {
+                            await authService.signInWithGoogle();
+                            print("test");
+                          } else {
+                            print("cannot login");
+                            await authService.signInWithGoogle();
+                          }
+                        },
                       ),
                       Align(
                         alignment: Alignment.bottomRight,
