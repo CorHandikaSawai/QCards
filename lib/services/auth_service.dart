@@ -3,15 +3,42 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:free_quizme/models/qc_user_model.dart';
 import 'package:free_quizme/services/user_service.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthenticationService extends ChangeNotifier {
   final _firebaseAuth = FirebaseAuth.instance;
   final _userService = UserService();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   QCUser? currentUser;
   var isLoading = false;
   var isEmailVerified = false;
   var response = '';
+
+  Future<User?> signInWithGoogle() async {
+    final GoogleSignInAccount? googleSignInAccount =
+        await _googleSignIn.signIn();
+    final GoogleSignInAuthentication? googleSignInAuthentication =
+        await googleSignInAccount?.authentication;
+
+    final AuthCredential credential = GoogleAuthProvider.credential(
+      accessToken: googleSignInAuthentication?.accessToken,
+      idToken: googleSignInAuthentication?.idToken,
+    );
+
+    final UserCredential authResult =
+        await _auth.signInWithCredential(credential);
+    final User? user = authResult.user;
+
+    assert(user!.isAnonymous);
+    //assert(await user!.getIdToken() != null);
+
+    final User currentUser = _auth.currentUser!;
+    assert(user!.uid == currentUser.uid);
+
+    return user;
+  }
 
   createUser(
       {required String firstName,
