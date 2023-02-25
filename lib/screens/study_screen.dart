@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:free_quizme/services/auth_service.dart';
 import 'package:free_quizme/services/card_service.dart';
 import 'package:free_quizme/widgets/flippable_card_widget.dart';
-import 'package:provider/provider.dart';
 
 class StudyScreen extends StatefulWidget {
   const StudyScreen(

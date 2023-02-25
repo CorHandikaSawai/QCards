@@ -20,10 +20,10 @@ class _HomePageScreenState extends State<HomePageScreen> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   final List<String> _sortingList = <String>['Recent', 'A-Z', 'Z-A'];
   late String _sortValue;
+  List<CollectionCard> subjects = [];
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _sortValue = _sortingList.first;
   }
@@ -62,11 +62,12 @@ class _HomePageScreenState extends State<HomePageScreen> {
               child: FutureBuilder(
                 future: cardService.getUserSubjects(
                   userId: FirebaseAuth.instance.currentUser!.uid,
+                  sortValue: _sortValue,
                 ),
                 builder: (context,
                     AsyncSnapshot<List<Map<String, String>>> snapshot) {
-                  List<Widget> subjects = [];
                   if (snapshot.hasData) {
+                    subjects = [];
                     for (var element in snapshot.data!) {
                       subjects.add(
                         CollectionCard(

@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:free_quizme/widgets/card_form_widget.dart';
 
@@ -9,7 +8,7 @@ class CardService extends ChangeNotifier {
 
   ///Returns a list of map containing all subjects <subjectName, numOfCards>
   Future<List<Map<String, String>>> getUserSubjects(
-      {required String userId}) async {
+      {required String userId, required String sortValue}) async {
     List<Map<String, String>> allSubjects = [];
     try {
       await _firestore
@@ -19,12 +18,25 @@ class CardService extends ChangeNotifier {
           .get()
           .then((value) {
         for (var element in value.docs) {
+          allSubjects.add({
+            'subjectName': element.id,
+            'count': element.get('count'),
+            'lastUpdated': element.get('lastUpdated'),
+          });
+        }
+        if (sortValue == "A-Z") {
           allSubjects
-              .add({'subjectName': element.id, 'count': element.get('count')});
+              .sort(((a, b) => a['subjectName']!.compareTo(b['subjectName']!)));
+        } else if (sortValue == "Z-A") {
+          allSubjects
+              .sort(((a, b) => b['subjectName']!.compareTo(a['subjectName']!)));
+        } else {
+          allSubjects
+              .sort(((a, b) => b['lastUpdated']!.compareTo(a['lastUpdated']!)));
         }
       });
     } catch (e) {
-      print(e);
+      print("error: $e");
     }
     return allSubjects;
   }
@@ -69,7 +81,7 @@ class CardService extends ChangeNotifier {
     }
   }
 
-  ///Saves all the questions and answers user has entered
+  ///Saves all the questions and answers user has entered to the collection
   Future<void> saveAllCards(
       {required String userId,
       required String subjectName,
@@ -120,6 +132,9 @@ class CardService extends ChangeNotifier {
             .doc(subjectName)
             .set({
           'count': numOfCards.toString(),
+          'lastUpdated': DateTime.now()
+              .millisecondsSinceEpoch
+              .toString(), //TODO: check if this works
         });
       } else {
         await deleteCollection(subjectName: subjectName, userId: userId);
