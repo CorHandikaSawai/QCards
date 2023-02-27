@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:free_quizme/models/qc_user_model.dart';
 import 'package:free_quizme/services/user_service.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthenticationService extends ChangeNotifier {
   final _firebaseAuth = FirebaseAuth.instance;
@@ -77,6 +77,32 @@ class AuthenticationService extends ChangeNotifier {
     } finally {
       isLoading = false;
       notifyListeners();
+    }
+  }
+
+  ///Sign In with google
+  void signInWithGoogle() async {
+    try {
+      // Begin interative sign in process
+      final GoogleSignInAccount? googleUser =
+          await GoogleSignIn(signInOption: SignInOption.standard).signIn();
+
+      if (googleUser != null) {
+        final GoogleSignInAuthentication googleAuth =
+            await googleUser.authentication;
+        final gooleAuthCredential = GoogleAuthProvider.credential(
+          accessToken: googleAuth.accessToken,
+          idToken: googleAuth.idToken,
+        );
+        // Sign in
+        UserCredential userCredential = await FirebaseAuth.instance
+            .signInWithCredential(gooleAuthCredential);
+        currentUser =
+            await _userService.getUserData(userId: userCredential.user!.uid);
+        print(currentUser!.firstName);
+      }
+    } catch (e) {
+      print(e);
     }
   }
 

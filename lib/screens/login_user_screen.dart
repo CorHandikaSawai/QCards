@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:free_quizme/screens/homepage_screen.dart';
 import 'package:free_quizme/screens/register_user_screen.dart';
 import 'package:free_quizme/services/auth_service.dart';
 import 'package:provider/provider.dart';
+import 'package:social_login_buttons/social_login_buttons.dart';
 
 class LoginUserScreen extends StatefulWidget {
   const LoginUserScreen({super.key});
@@ -28,24 +30,17 @@ class _LoginUserScreenState extends State<LoginUserScreen> {
         key: formKey,
         child: Align(
           alignment: Alignment.center,
-          child: SizedBox(
-            width: size.width * 0.50,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Expanded(
-                  flex: 2,
-                  child: Align(
-                    alignment: Alignment.center,
-                    child: Text(
-                      'QCard',
-                      style: TextStyle(fontSize: 24),
-                    ),
+          child: SingleChildScrollView(
+            child: SizedBox(
+              width: size.width * 0.8,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    'QCard',
+                    style: TextStyle(fontSize: 24),
                   ),
-                ),
-                Expanded(
-                  flex: 4,
-                  child: Column(
+                  Column(
                     children: [
                       TextFormField(
                         keyboardType: TextInputType.emailAddress,
@@ -73,8 +68,8 @@ class _LoginUserScreenState extends State<LoginUserScreen> {
                               });
                             },
                             icon: obscurePassword
-                                ? Icon(Icons.visibility_off)
-                                : Icon(Icons.visibility),
+                                ? const Icon(Icons.visibility_off)
+                                : const Icon(Icons.visibility),
                           ),
                         ),
                         autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -136,10 +131,26 @@ class _LoginUserScreenState extends State<LoginUserScreen> {
                           child: const Text('Register'),
                         ),
                       ),
+                      SizedBox(
+                        height: 50,
+                      ),
+                      SocialLoginButton(
+                        buttonType: SocialLoginButtonType.google,
+                        onPressed: () {
+                          authService.signInWithGoogle();
+                          if (mounted) {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => HomePageScreen(),
+                              ),
+                            );
+                          }
+                        },
+                      )
                     ],
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

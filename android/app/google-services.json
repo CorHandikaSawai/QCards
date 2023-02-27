@@ -14,7 +14,15 @@
       },
       "oauth_client": [
         {
-          "client_id": "1096783478376-faq56mhd4cb3ehvkhg4jmhmq56cnvc3u.apps.googleusercontent.com",
+          "client_id": "1096783478376-t2ns8hq2n81ktsqb63k5g1kbqdsgq2vb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.free_quizme",
+            "certificate_hash": "4d18c387fffcfa85dedc95ed3356185c63212e12"
+          }
+        },
+        {
+          "client_id": "1096783478376-o8gnv8a9rqmac58g7rqkmhtttar5c8vu.apps.googleusercontent.com",
           "client_type": 3
         }
       ],

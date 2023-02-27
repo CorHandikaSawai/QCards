@@ -33,17 +33,8 @@ class _HomePageScreenState extends State<HomePageScreen> {
     final cardService = Provider.of<CardService>(context);
     final authService = Provider.of<AuthenticationService>(context);
 
-    return authService.currentUser == null
-        ? const Scaffold(
-            body: Center(
-              child: Text(
-                'You are logged out.',
-                style: TextStyle(
-                  fontSize: 16,
-                ),
-              ),
-            ),
-          )
+    return FirebaseAuth.instance.currentUser == null
+        ? CircularProgressIndicator()
         : Scaffold(
             key: _scaffoldKey,
             appBar: AppBar(
