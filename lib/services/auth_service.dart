@@ -32,7 +32,7 @@ class AuthenticationService extends ChangeNotifier {
     final User? user = authResult.user;
 
     assert(user!.isAnonymous);
-    //assert(await user!.getIdToken() != null);
+    assert(await user?.getIdToken() != null);
 
     final User currentUser = _auth.currentUser!;
     assert(user!.uid == currentUser.uid);
