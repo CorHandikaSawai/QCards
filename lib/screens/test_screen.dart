@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:free_quizme/services/auth_service.dart';
-import 'package:free_quizme/services/user_service.dart';
 import 'package:provider/provider.dart';
 
 class TestScreen extends StatelessWidget {
@@ -16,7 +15,7 @@ class TestScreen extends StatelessWidget {
             onPressed: () {
               userService.logout();
             },
-            child: Text('Logout'),
+            child: const Text('Logout'),
           ),
         ],
       ),

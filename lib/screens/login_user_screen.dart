@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:free_quizme/screens/homepage_screen.dart';
 import 'package:free_quizme/screens/register_user_screen.dart';
 import 'package:free_quizme/services/auth_service.dart';
@@ -136,15 +134,8 @@ class _LoginUserScreenState extends State<LoginUserScreen> {
                       ),
                       SocialLoginButton(
                         buttonType: SocialLoginButtonType.google,
-                        onPressed: () {
-                          authService.signInWithGoogle();
-                          if (mounted) {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => HomePageScreen(),
-                              ),
-                            );
-                          }
+                        onPressed: () async {
+                          await authService.signInWithGoogleWeb();
                         },
                       )
                     ],
