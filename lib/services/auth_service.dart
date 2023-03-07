@@ -12,7 +12,7 @@ class AuthenticationService extends ChangeNotifier {
   QCUser? currentUser;
   var isLoading = false;
   var isEmailVerified = false;
-  var response = '';
+  var error = '';
 
   createUser(
       {required String firstName,
@@ -20,6 +20,7 @@ class AuthenticationService extends ChangeNotifier {
       required String email,
       required String password}) async {
     isLoading = true;
+    error = '';
     notifyListeners();
     try {
       await _firebaseAuth
@@ -32,7 +33,6 @@ class AuthenticationService extends ChangeNotifier {
                     lastName: lastName);
                 currentUser = await _userService.getUserData(
                     userId: userCredential.user!.uid);
-                response = 'Successful. Please check your email.';
               }));
     } on FirebaseAuthException catch (e) {
       const errorCodes = [
@@ -42,10 +42,10 @@ class AuthenticationService extends ChangeNotifier {
         'weak-password'
       ];
       if (errorCodes.contains(e.code)) {
-        response =
+        error =
             e.code[0].toUpperCase() + e.code.replaceAll('-', ' ').substring(1);
       } else {
-        response = e.code;
+        error = e.code;
       }
     } finally {
       isLoading = false;
@@ -55,6 +55,7 @@ class AuthenticationService extends ChangeNotifier {
 
   Future<void> login({required String email, required String password}) async {
     isLoading = true;
+    error = '';
     notifyListeners();
     try {
       await _firebaseAuth
@@ -63,19 +64,16 @@ class AuthenticationService extends ChangeNotifier {
         if (userCredential.user!.emailVerified) {
           currentUser =
               await _userService.getUserData(userId: userCredential.user!.uid);
-          response = 'Login Success';
-        } else {
-          response = 'Login Failed. Please verify your email';
         }
       });
     } on FirebaseAuthException catch (e) {
       if (e.code == 'invalid-email') {
-        response =
+        error =
             e.code[0].toUpperCase() + e.code.replaceAll('-', ' ').substring(1);
       } else if (e.code == 'user-disabled') {
-        response = 'User is disabled. Please contact support.';
+        error = 'User is disabled. Please contact support.';
       } else {
-        response = 'Incorrect email or password.';
+        error = 'Incorrect email or password.';
       }
     } finally {
       isLoading = false;

@@ -91,21 +91,12 @@ class _LoginUserScreenState extends State<LoginUserScreen> {
                                             passwordTxtFormController.text);
                                   }
                                   if (mounted) {
-                                    if (authService.response
-                                        .contains('Success')) {
-                                      Navigator.pushAndRemoveUntil(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                const HomePageScreen(),
-                                          ),
-                                          (route) => false);
-                                    } else {
+                                    if (authService.error.isNotEmpty) {
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(
                                         SnackBar(
                                           backgroundColor: Colors.redAccent,
-                                          content: Text(authService.response),
+                                          content: Text(authService.error),
                                         ),
                                       );
                                     }

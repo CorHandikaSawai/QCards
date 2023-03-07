@@ -51,7 +51,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
         minimum: const EdgeInsets.all(8),
         child: FutureBuilder(
           future: cardService.getUserSubjects(
-            userId: authService.currentUser!.userId,
+            userId: FirebaseAuth.instance.currentUser!.uid,
             sortValue: _sortValue,
           ),
           builder:
@@ -171,7 +171,9 @@ class _HomePageScreenState extends State<HomePageScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                authService.currentUser!.firstName,
+                FirebaseAuth.instance.currentUser!.displayName == null
+                    ? FirebaseAuth.instance.currentUser!.email.toString()
+                    : FirebaseAuth.instance.currentUser!.displayName.toString(),
               ),
               TextButton(
                 onPressed: () async {

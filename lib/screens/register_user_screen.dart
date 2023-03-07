@@ -125,22 +125,12 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
                                         password:
                                             passwordTxtFormController.text);
                                     if (mounted) {
-                                      if (authService.response
-                                          .contains('Success')) {
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          SnackBar(
-                                            backgroundColor: Colors.blue,
-                                            content: Text(authService.response),
-                                          ),
-                                        );
-                                        Navigator.of(context).pop();
-                                      } else {
+                                      if (authService.error.isNotEmpty) {
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(
                                           SnackBar(
                                             backgroundColor: Colors.redAccent,
-                                            content: Text(authService.response),
+                                            content: Text(authService.error),
                                           ),
                                         );
                                       }
