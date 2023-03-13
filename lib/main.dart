@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:free_quizme/firebase_options.dart';
 import 'package:free_quizme/screens/homepage_screen.dart';
 import 'package:free_quizme/screens/login_user_screen.dart';
-import 'package:free_quizme/screens/test_screen.dart';
 import 'package:free_quizme/services/auth_service.dart';
 import 'package:free_quizme/services/card_service.dart';
 import 'package:free_quizme/services/user_preference_service.dart';
@@ -12,8 +11,9 @@ import 'package:free_quizme/services/user_service.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
   runApp(
     MultiProvider(
       providers: [
