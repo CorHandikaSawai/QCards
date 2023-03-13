@@ -126,7 +126,7 @@ class _LoginUserScreenState extends State<LoginUserScreen> {
                       SocialLoginButton(
                         buttonType: SocialLoginButtonType.google,
                         onPressed: () async {
-                          await authService.signInWithGoogleWeb();
+                          await authService.signInWithGoogle();
                         },
                       )
                     ],
