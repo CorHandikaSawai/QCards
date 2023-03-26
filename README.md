@@ -1,4 +1,4 @@
-# free_quizme
+# QCard
 
 A new Flutter project.
 
