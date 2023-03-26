@@ -115,6 +115,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                   child: Form(
                     key: _formKey,
                     child: TextFormField(
+                      maxLength: 25,
                       controller: _collectionNameTextFormController,
                       decoration: const InputDecoration(
                         label: Text('Name'),

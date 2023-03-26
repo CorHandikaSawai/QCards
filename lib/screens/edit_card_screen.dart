@@ -41,17 +41,30 @@ class _EditCardsScreenState extends State<EditCardsScreen> {
         title: Text('Editing ${widget.subjectName}'),
         actions: [
           Tab(
-            child: IconButton(
-              onPressed: () {
-                setState(() {
-                  listOfCards.add(CardFormWidget());
-                });
-                scrollController.animateTo(
-                    scrollController.position.minScrollExtent,
-                    duration: const Duration(milliseconds: 300),
-                    curve: Curves.easeInOut);
+            child: TextButton(
+              onPressed: () async {
+                await cardService.saveAllCards(
+                    userId: FirebaseAuth.instance.currentUser!.uid,
+                    subjectName: widget.subjectName.toString(),
+                    cards: listOfCards);
+                if (mounted) {
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const HomePageScreen(),
+                      ),
+                      (route) => false);
+                }
               },
-              icon: const Icon(Icons.add),
+              child: cardService.isLoading
+                  ? const CircularProgressIndicator.adaptive()
+                  : const Text(
+                      'Save',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                      ),
+                    ),
             ),
           )
         ],
@@ -68,26 +81,16 @@ class _EditCardsScreenState extends State<EditCardsScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: BottomAppBar(
-        child: IconButton(
-          onPressed: () async {
-            await cardService.saveAllCards(
-                userId: FirebaseAuth.instance.currentUser!.uid,
-                subjectName: widget.subjectName.toString(),
-                cards: listOfCards);
-            if (mounted) {
-              Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const HomePageScreen(),
-                  ),
-                  (route) => false);
-            }
-          },
-          icon: cardService.isLoading
-              ? const CircularProgressIndicator.adaptive()
-              : const Icon(Icons.save),
-        ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          setState(() {
+            listOfCards.add(CardFormWidget());
+          });
+          scrollController.animateTo(scrollController.position.minScrollExtent,
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeInOut);
+        },
+        child: const Icon(Icons.library_add_rounded),
       ),
     );
   }
