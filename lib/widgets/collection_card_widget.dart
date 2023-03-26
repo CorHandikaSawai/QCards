@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:free_quizme/screens/edit_card_screen.dart';
 import 'package:free_quizme/screens/homepage_screen.dart';
@@ -80,7 +81,7 @@ class CollectionCard extends StatelessWidget {
           MaterialPageRoute(
             builder: (context) => StudyScreen(
               subjectName: subjectName,
-              userId: authService.currentUser!.userId,
+              userId: FirebaseAuth.instance.currentUser!.uid,
             ),
           ),
         );
@@ -120,7 +121,7 @@ class CollectionCard extends StatelessWidget {
                       IconButton(
                         onPressed: () {
                           _showDialog('delete', context,
-                              authService.currentUser!.userId);
+                              FirebaseAuth.instance.currentUser!.uid);
                         },
                         icon: const Icon(
                           Icons.delete,
@@ -129,8 +130,8 @@ class CollectionCard extends StatelessWidget {
                       ),
                       IconButton(
                         onPressed: () {
-                          _showDialog(
-                              'edit', context, authService.currentUser!.userId);
+                          _showDialog('edit', context,
+                              FirebaseAuth.instance.currentUser!.uid);
                         },
                         icon: const Icon(
                           Icons.edit,

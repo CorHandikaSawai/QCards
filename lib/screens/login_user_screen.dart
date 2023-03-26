@@ -1,3 +1,5 @@
+import 'dart:io' show Platform;
+import 'package:flutter/foundation.dart' show defaultTargetPlatform, kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:free_quizme/screens/register_user_screen.dart';
 import 'package:free_quizme/services/auth_service.dart';
@@ -125,7 +127,16 @@ class _LoginUserScreenState extends State<LoginUserScreen> {
                         SocialLoginButton(
                           buttonType: SocialLoginButtonType.google,
                           onPressed: () async {
-                            await authService.signInWithGoogle();
+                            if (defaultTargetPlatform ==
+                                TargetPlatform.android) {
+                              await authService.signInWithGoogle();
+                            } else if (defaultTargetPlatform ==
+                                TargetPlatform.iOS) {
+                              // TODO: Implement login for IOS
+                            } else if (kIsWeb) {
+                              print('object');
+                              await authService.signInWithGoogleWeb();
+                            }
                           },
                         )
                       ],
