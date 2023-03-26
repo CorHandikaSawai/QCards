@@ -1,8 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:free_quizme/models/qc_user_model.dart';
 import 'package:free_quizme/services/user_service.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthenticationService extends ChangeNotifier {
   final _firebaseAuth = FirebaseAuth.instance;
@@ -11,7 +12,7 @@ class AuthenticationService extends ChangeNotifier {
   QCUser? currentUser;
   var isLoading = false;
   var isEmailVerified = false;
-  var response = '';
+  var error = '';
 
   createUser(
       {required String firstName,
@@ -19,17 +20,19 @@ class AuthenticationService extends ChangeNotifier {
       required String email,
       required String password}) async {
     isLoading = true;
+    error = '';
     notifyListeners();
     try {
       await _firebaseAuth
           .createUserWithEmailAndPassword(email: email, password: password)
           .then((UserCredential userCredential) =>
-              userCredential.user!.sendEmailVerification().then((_) {
+              userCredential.user!.sendEmailVerification().then((_) async {
                 _userService.newUserData(
                     userId: userCredential.user!.uid,
                     firstName: firstName,
                     lastName: lastName);
-                response = 'Successful. Please check your email.';
+                currentUser = await _userService.getUserData(
+                    userId: userCredential.user!.uid);
               }));
     } on FirebaseAuthException catch (e) {
       const errorCodes = [
@@ -39,10 +42,10 @@ class AuthenticationService extends ChangeNotifier {
         'weak-password'
       ];
       if (errorCodes.contains(e.code)) {
-        response =
+        error =
             e.code[0].toUpperCase() + e.code.replaceAll('-', ' ').substring(1);
       } else {
-        response = e.code;
+        error = e.code;
       }
     } finally {
       isLoading = false;
@@ -52,6 +55,7 @@ class AuthenticationService extends ChangeNotifier {
 
   Future<void> login({required String email, required String password}) async {
     isLoading = true;
+    error = '';
     notifyListeners();
     try {
       await _firebaseAuth
@@ -60,24 +64,72 @@ class AuthenticationService extends ChangeNotifier {
         if (userCredential.user!.emailVerified) {
           currentUser =
               await _userService.getUserData(userId: userCredential.user!.uid);
-          response = 'Login Success';
-        } else {
-          response = 'Login Failed. Please verify your email';
         }
       });
     } on FirebaseAuthException catch (e) {
       if (e.code == 'invalid-email') {
-        response =
+        error =
             e.code[0].toUpperCase() + e.code.replaceAll('-', ' ').substring(1);
       } else if (e.code == 'user-disabled') {
-        response = 'User is disabled. Please contact support.';
+        error = 'User is disabled. Please contact support.';
       } else {
-        response = 'Incorrect email or password.';
+        error = 'Incorrect email or password.';
       }
     } finally {
       isLoading = false;
       notifyListeners();
     }
+  }
+
+  ///Sign In with google
+  Future<void> signInWithGoogle() async {
+    // Trigger the authentication flow
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+    // Obtain the auth details from the request
+    final GoogleSignInAuthentication? googleAuth =
+        await googleUser?.authentication;
+
+    // Create a new credential
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth?.accessToken,
+      idToken: googleAuth?.idToken,
+    );
+
+    await FirebaseAuth.instance
+        .signInWithCredential(credential)
+        .then((UserCredential userCredential) async {
+      _userService.newUserData(
+          userId: userCredential.user!.uid,
+          firstName: userCredential.user!.email.toString(),
+          lastName: '');
+      currentUser =
+          await _userService.getUserData(userId: userCredential.user!.uid);
+    });
+
+    notifyListeners();
+  }
+
+  Future<void> signInWithGoogleWeb() async {
+    GoogleAuthProvider googleProvider = GoogleAuthProvider();
+    googleProvider
+        .addScope('https://www.googleapis.com/auth/contacts.readonly');
+    googleProvider.setCustomParameters({'login_hint': 'user@example.com'});
+
+    // Once signed in, return the UserCredential
+
+    await FirebaseAuth.instance
+        .signInWithPopup(googleProvider)
+        .then((UserCredential userCredential) async {
+      _userService.newUserData(
+          userId: userCredential.user!.uid,
+          firstName: userCredential.user!.email.toString(),
+          lastName: '');
+      currentUser =
+          await _userService.getUserData(userId: userCredential.user!.uid);
+    });
+
+    notifyListeners();
   }
 
   Future<void> logout() async {
