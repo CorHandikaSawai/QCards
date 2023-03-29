@@ -1,12 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:free_quizme/models/qc_user_model.dart';
-import 'package:free_quizme/screens/create_card_screen.dart';
-import 'package:free_quizme/services/auth_service.dart';
-import 'package:free_quizme/services/card_service.dart';
-import 'package:free_quizme/services/user_service.dart';
-import 'package:free_quizme/widgets/collection_card_widget.dart';
 import 'package:provider/provider.dart';
+import 'package:qcards/screens/create_card_screen.dart';
+import 'package:qcards/services/auth_service.dart';
+import 'package:qcards/services/card_service.dart';
+import 'package:qcards/widgets/collection_card_widget.dart';
 
 class HomePageScreen extends StatefulWidget {
   const HomePageScreen({super.key});
@@ -132,28 +130,28 @@ class _HomePageScreenState extends State<HomePageScreen> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async {
                       if (_formKey.currentState!.validate()) {
-                        setState(
-                          () {
-                            _collectionName =
-                                _collectionNameTextFormController.text;
-                          },
-                        );
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                CreateCardsScreen(subjectName: _collectionName),
-                          ),
-                        );
-                      } else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Error'),
-                            backgroundColor: Colors.redAccent,
-                          ),
-                        );
+                        if (await cardService.exists(
+                            subjectName:
+                                _collectionNameTextFormController.text)) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text(
+                                  'Collection Already Exists. Change the name or edit the existing one'),
+                              backgroundColor: Colors.redAccent,
+                            ),
+                          );
+                        } else {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => CreateCardsScreen(
+                                  subjectName:
+                                      _collectionNameTextFormController.text),
+                            ),
+                          );
+                        }
                       }
                     },
                     child: const Text('Create'),

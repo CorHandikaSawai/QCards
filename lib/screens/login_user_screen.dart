@@ -1,9 +1,9 @@
 import 'dart:io' show Platform;
 import 'package:flutter/foundation.dart' show defaultTargetPlatform, kIsWeb;
 import 'package:flutter/material.dart';
-import 'package:free_quizme/screens/register_user_screen.dart';
-import 'package:free_quizme/services/auth_service.dart';
 import 'package:provider/provider.dart';
+import 'package:qcards/screens/register_user_screen.dart';
+import 'package:qcards/services/auth_service.dart';
 import 'package:social_login_buttons/social_login_buttons.dart';
 
 class LoginUserScreen extends StatefulWidget {
@@ -134,7 +134,6 @@ class _LoginUserScreenState extends State<LoginUserScreen> {
                                 TargetPlatform.iOS) {
                               // TODO: Implement login for IOS
                             } else if (kIsWeb) {
-                              print('object');
                               await authService.signInWithGoogleWeb();
                             }
                           },

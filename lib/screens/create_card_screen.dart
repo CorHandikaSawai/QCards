@@ -1,9 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:free_quizme/screens/homepage_screen.dart';
-import 'package:free_quizme/services/card_service.dart';
-import 'package:free_quizme/widgets/card_form_widget.dart';
 import 'package:provider/provider.dart';
+import 'package:qcards/screens/homepage_screen.dart';
+import 'package:qcards/services/card_service.dart';
+import 'package:qcards/widgets/card_form_widget.dart';
 
 class CreateCardsScreen extends StatefulWidget {
   const CreateCardsScreen({super.key, required this.subjectName});
@@ -29,18 +29,32 @@ class _CreateCardsScreenState extends State<CreateCardsScreen> {
           Tab(
             child: TextButton(
               onPressed: () async {
-                await cardService.saveAllCards(
-                    userId: FirebaseAuth.instance.currentUser!.uid,
-                    subjectName: widget.subjectName.toString(),
-                    cards: listOfCards);
-                if (mounted) {
-                  Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const HomePageScreen(),
-                      ),
-                      (route) => false);
-                }
+                await cardService
+                    .saveAllCards(
+                        userId: FirebaseAuth.instance.currentUser!.uid,
+                        subjectName: widget.subjectName.toString(),
+                        cards: listOfCards)
+                    .then((_) => {
+                          if (cardService.error.isNotEmpty)
+                            {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(cardService.error),
+                                  backgroundColor: Colors.red[700],
+                                ),
+                              ),
+                            }
+                          else if (mounted)
+                            {
+                              Navigator.pushAndRemoveUntil(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        const HomePageScreen(),
+                                  ),
+                                  (route) => false)
+                            }
+                        });
               },
               child: cardService.isLoading
                   ? const CircularProgressIndicator.adaptive()
