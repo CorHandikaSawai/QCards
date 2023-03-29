@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:free_quizme/services/auth_service.dart';
 import 'package:provider/provider.dart';
+import 'package:qcards/services/auth_service.dart';
 
 class RegisterUserScreen extends StatefulWidget {
   const RegisterUserScreen({super.key});

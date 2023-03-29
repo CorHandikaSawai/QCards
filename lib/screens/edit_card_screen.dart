@@ -1,9 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:free_quizme/screens/homepage_screen.dart';
-import 'package:free_quizme/services/card_service.dart';
-import 'package:free_quizme/widgets/card_form_widget.dart';
 import 'package:provider/provider.dart';
+import 'package:qcards/screens/homepage_screen.dart';
+import 'package:qcards/services/card_service.dart';
+import 'package:qcards/widgets/card_form_widget.dart';
 
 class EditCardsScreen extends StatefulWidget {
   const EditCardsScreen(

@@ -1,10 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:free_quizme/screens/edit_card_screen.dart';
-import 'package:free_quizme/screens/homepage_screen.dart';
-import 'package:free_quizme/screens/study_screen.dart';
-import 'package:free_quizme/services/auth_service.dart';
-import 'package:free_quizme/services/card_service.dart';
+import 'package:qcards/screens/edit_card_screen.dart';
+import 'package:qcards/screens/homepage_screen.dart';
+import 'package:qcards/screens/study_screen.dart';
+import 'package:qcards/services/auth_service.dart';
+import 'package:qcards/services/card_service.dart';
 import 'package:provider/provider.dart';
 
 class CollectionCard extends StatelessWidget {

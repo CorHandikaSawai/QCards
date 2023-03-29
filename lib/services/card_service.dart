@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:free_quizme/widgets/card_form_widget.dart';
+import 'package:qcards/widgets/card_form_widget.dart';
 
 class CardService extends ChangeNotifier {
   final _firestore = FirebaseFirestore.instance;
   bool isLoading = false;
+  String error = '';
 
   ///Returns a list of map containing all subjects <subjectName, numOfCards>
   Future<List<Map<String, String>>> getUserSubjects(
@@ -86,6 +88,7 @@ class CardService extends ChangeNotifier {
       {required String userId,
       required String subjectName,
       required List<CardFormWidget> cards}) async {
+    error = '';
     isLoading = true;
     notifyListeners();
     int numOfCards = 0;
@@ -109,7 +112,7 @@ class CardService extends ChangeNotifier {
             });
           } else {
             //New cards
-            await _firestore
+            final subject = await _firestore
                 .collection('collections')
                 .doc(userId)
                 .collection('subjects')
@@ -174,5 +177,18 @@ class CardService extends ChangeNotifier {
       print(e);
     }
     return questionsAnwers;
+  }
+
+  Future<bool> exists({required String subjectName}) async {
+    final subjectRef = await _firestore
+        .collection('collections')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection('subjects')
+        .doc(subjectName)
+        .get();
+    if (subjectRef.exists) {
+      return true;
+    }
+    return false;
   }
 }

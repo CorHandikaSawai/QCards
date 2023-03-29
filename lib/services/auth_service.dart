@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:free_quizme/models/qc_user_model.dart';
-import 'package:free_quizme/services/user_service.dart';
+import 'package:qcards/models/qc_user_model.dart';
+import 'package:qcards/services/user_service.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthenticationService extends ChangeNotifier {
@@ -83,53 +83,60 @@ class AuthenticationService extends ChangeNotifier {
 
   ///Sign In with google
   Future<void> signInWithGoogle() async {
-    // Trigger the authentication flow
-    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+    try {
+      // Trigger the authentication flow
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
-    // Obtain the auth details from the request
-    final GoogleSignInAuthentication? googleAuth =
-        await googleUser?.authentication;
+      // Obtain the auth details from the request
+      final GoogleSignInAuthentication? googleAuth =
+          await googleUser?.authentication;
 
-    // Create a new credential
-    final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth?.accessToken,
-      idToken: googleAuth?.idToken,
-    );
+      // Create a new credential
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth?.accessToken,
+        idToken: googleAuth?.idToken,
+      );
 
-    await FirebaseAuth.instance
-        .signInWithCredential(credential)
-        .then((UserCredential userCredential) async {
-      _userService.newUserData(
-          userId: userCredential.user!.uid,
-          firstName: userCredential.user!.email.toString(),
-          lastName: '');
-      currentUser =
-          await _userService.getUserData(userId: userCredential.user!.uid);
-    });
-
-    notifyListeners();
+      await FirebaseAuth.instance
+          .signInWithCredential(credential)
+          .then((UserCredential userCredential) async {
+        _userService.newUserData(
+            userId: userCredential.user!.uid,
+            firstName: userCredential.user!.email.toString(),
+            lastName: '');
+        currentUser =
+            await _userService.getUserData(userId: userCredential.user!.uid);
+      });
+    } catch (e) {
+      print(e);
+    } finally {
+      notifyListeners();
+    }
   }
 
   Future<void> signInWithGoogleWeb() async {
-    GoogleAuthProvider googleProvider = GoogleAuthProvider();
-    googleProvider
-        .addScope('https://www.googleapis.com/auth/contacts.readonly');
-    googleProvider.setCustomParameters({'login_hint': 'user@example.com'});
+    try {
+      GoogleAuthProvider googleProvider = GoogleAuthProvider();
+      googleProvider
+          .addScope('https://www.googleapis.com/auth/contacts.readonly');
+      googleProvider.setCustomParameters({'login_hint': 'user@example.com'});
 
-    // Once signed in, return the UserCredential
-
-    await FirebaseAuth.instance
-        .signInWithPopup(googleProvider)
-        .then((UserCredential userCredential) async {
-      _userService.newUserData(
-          userId: userCredential.user!.uid,
-          firstName: userCredential.user!.email.toString(),
-          lastName: '');
-      currentUser =
-          await _userService.getUserData(userId: userCredential.user!.uid);
-    });
-
-    notifyListeners();
+      // Once signed in, return the UserCredential
+      await FirebaseAuth.instance
+          .signInWithPopup(googleProvider)
+          .then((UserCredential userCredential) async {
+        _userService.newUserData(
+            userId: userCredential.user!.uid,
+            firstName: userCredential.user!.email.toString(),
+            lastName: '');
+        currentUser =
+            await _userService.getUserData(userId: userCredential.user!.uid);
+      });
+    } catch (e) {
+      print(e);
+    } finally {
+      notifyListeners();
+    }
   }
 
   Future<void> logout() async {

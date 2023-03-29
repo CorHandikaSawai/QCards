@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:free_quizme/models/qc_user_model.dart';
+import 'package:qcards/models/qc_user_model.dart';
 
 class UserService extends ChangeNotifier {
   final _firestore = FirebaseFirestore.instance;
