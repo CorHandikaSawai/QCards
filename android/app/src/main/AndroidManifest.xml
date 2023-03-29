@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.free_quizme">
+    package="com.example.qcards">
    <application
-        android:label="free_quizme"
+        android:label="qcards"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
        android:usesCleartextTraffic="true"

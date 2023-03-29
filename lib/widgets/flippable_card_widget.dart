@@ -20,13 +20,29 @@ class FlippableCardWidget extends StatelessWidget {
         width: double.infinity,
         child: Card(
           child: Center(
-            child: Text(question),
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: SingleChildScrollView(
+                child: Text(
+                  question,
+                  style: TextStyle(fontSize: 16),
+                ),
+              ),
+            ),
           ),
         ),
       ),
       back: Card(
         child: Center(
-          child: Text(answer),
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: SingleChildScrollView(
+              child: Text(
+                answer,
+                style: TextStyle(fontSize: 16),
+              ),
+            ),
+          ),
         ),
       ),
     );

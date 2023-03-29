@@ -1,4 +1,4 @@
-package com.example.free_quizme
+package com.example.qcards
 
 import io.flutter.embedding.android.FlutterActivity
 

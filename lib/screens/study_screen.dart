@@ -70,7 +70,8 @@ class _StudyScreenState extends State<StudyScreen> {
                     child: Ink(
                       height: 50,
                       decoration: BoxDecoration(
-                        border: Border.all(color: Colors.white),
+                        color: Colors.white,
+                        border: Border.all(color: Colors.blue),
                       ),
                       child: InkWell(
                         onTap: () {
@@ -92,7 +93,8 @@ class _StudyScreenState extends State<StudyScreen> {
                     child: Ink(
                       height: 50,
                       decoration: BoxDecoration(
-                        border: Border.all(color: Colors.white),
+                        color: Colors.white,
+                        border: Border.all(color: Colors.blue),
                       ),
                       child: InkWell(
                         onTap: () {

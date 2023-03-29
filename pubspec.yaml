@@ -19,7 +19,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
   cupertino_icons: ^1.0.2
   firebase_core: ^2.1.1
   provider: ^6.0.5
@@ -37,3 +36,5 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+      - assets/images/
