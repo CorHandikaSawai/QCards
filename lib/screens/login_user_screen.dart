@@ -35,9 +35,14 @@ class _LoginUserScreenState extends State<LoginUserScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text(
-                      'QCard',
-                      style: TextStyle(fontSize: 24),
+                    Container(
+                      margin: EdgeInsets.only(
+                        bottom: 50,
+                      ),
+                      child: CircleAvatar(
+                        radius: 150,
+                        backgroundImage: AssetImage('images/QCard_logo.png'),
+                      ),
                     ),
                     Column(
                       children: [
@@ -83,27 +88,34 @@ class _LoginUserScreenState extends State<LoginUserScreen> {
                           padding: const EdgeInsets.all(24.0),
                           child: authService.isLoading
                               ? const CircularProgressIndicator()
-                              : ElevatedButton(
-                                  onPressed: () async {
-                                    if (formKey.currentState!.validate()) {
-                                      await authService.login(
-                                          email: emailTxtFormController.text,
-                                          password:
-                                              passwordTxtFormController.text);
-                                    }
-                                    if (mounted) {
-                                      if (authService.error.isNotEmpty) {
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          SnackBar(
-                                            backgroundColor: Colors.redAccent,
-                                            content: Text(authService.error),
-                                          ),
-                                        );
+                              : SizedBox(
+                                  height: 50,
+                                  width: 100,
+                                  child: ElevatedButton(
+                                    onPressed: () async {
+                                      if (formKey.currentState!.validate()) {
+                                        await authService.login(
+                                            email: emailTxtFormController.text,
+                                            password:
+                                                passwordTxtFormController.text);
                                       }
-                                    }
-                                  },
-                                  child: const Text('Login'),
+                                      if (mounted) {
+                                        if (authService.error.isNotEmpty) {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                              backgroundColor: Colors.redAccent,
+                                              content: Text(authService.error),
+                                            ),
+                                          );
+                                        }
+                                      }
+                                    },
+                                    child: const Text(
+                                      'Login',
+                                      style: TextStyle(fontSize: 18),
+                                    ),
+                                  ),
                                 ),
                         ),
                         Align(
@@ -118,7 +130,10 @@ class _LoginUserScreenState extends State<LoginUserScreen> {
                                 ),
                               );
                             },
-                            child: const Text('Register'),
+                            child: const Text(
+                              'Register',
+                              style: TextStyle(fontSize: 18),
+                            ),
                           ),
                         ),
                         SizedBox(
