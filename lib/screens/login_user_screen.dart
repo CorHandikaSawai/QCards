@@ -36,10 +36,10 @@ class _LoginUserScreenState extends State<LoginUserScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
-                      margin: EdgeInsets.only(
+                      margin: const EdgeInsets.only(
                         bottom: 50,
                       ),
-                      child: CircleAvatar(
+                      child: const CircleAvatar(
                         radius: 150,
                         backgroundImage: AssetImage('images/QCard_logo.png'),
                       ),
@@ -136,7 +136,7 @@ class _LoginUserScreenState extends State<LoginUserScreen> {
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 50,
                         ),
                         SocialLoginButton(

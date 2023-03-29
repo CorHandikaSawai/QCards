@@ -89,7 +89,8 @@ class CollectionCard extends StatelessWidget {
       child: SizedBox(
         height: 150,
         child: Card(
-          color: Colors.black12,
+          color: Colors.white,
+          elevation: 2,
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 0),
             child: Column(
@@ -100,13 +101,13 @@ class CollectionCard extends StatelessWidget {
                     children: [
                       Text(
                         subjectName,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 24,
                         ),
                       ),
                       Text(
-                        '$count cards',
-                        style: TextStyle(
+                        '$count ${int.parse(count) > 1 ? 'cards' : 'card'}',
+                        style: const TextStyle(
                           fontSize: 16,
                         ),
                       ),
