@@ -57,7 +57,9 @@ class _EditCardsScreenState extends State<EditCardsScreen> {
                 }
               },
               child: cardService.isLoading
-                  ? const CircularProgressIndicator.adaptive()
+                  ? const CircularProgressIndicator.adaptive(
+                      backgroundColor: Colors.white,
+                    )
                   : const Text(
                       'Save',
                       style: TextStyle(

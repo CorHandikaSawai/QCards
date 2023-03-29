@@ -74,6 +74,7 @@ class _CardFormWidgetState extends State<CardFormWidget> {
                 controller: widget.questionFieldController,
                 keyboardType: TextInputType.multiline,
                 maxLines: null,
+                maxLength: 3000, //About 500 words or one single spaced page
               ),
               Container(
                 margin: const EdgeInsets.all(5),
@@ -83,6 +84,7 @@ class _CardFormWidgetState extends State<CardFormWidget> {
                 controller: widget.answerFieldController,
                 keyboardType: TextInputType.multiline,
                 maxLines: null,
+                maxLength: 3000, //About 500 words or one single spaced page
               ),
             ],
           ),
