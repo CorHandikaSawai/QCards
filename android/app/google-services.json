@@ -1,20 +1,20 @@
 {
   "project_info": {
-    "project_number": "1096783478376",
-    "project_id": "qzcards-49ee1",
-    "storage_bucket": "qzcards-49ee1.appspot.com"
+    "project_number": "659616675679",
+    "project_id": "qcards-d4f31",
+    "storage_bucket": "qcards-d4f31.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1096783478376:android:cc3e6e7986983294be45dd",
+        "mobilesdk_app_id": "1:659616675679:android:ace0168f2a3930d346a8ea",
         "android_client_info": {
           "package_name": "com.example.qcards"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1096783478376-t2ns8hq2n81ktsqb63k5g1kbqdsgq2vb.apps.googleusercontent.com",
+          "client_id": "659616675679-i2vbfcj52prt8ggegbde4raaprv6a8bk.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.qcards",
@@ -22,27 +22,27 @@
           }
         },
         {
-          "client_id": "1096783478376-o8gnv8a9rqmac58g7rqkmhtttar5c8vu.apps.googleusercontent.com",
+          "client_id": "659616675679-nostem0b0t0187u9sd1e5t2rli3c8huj.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAndsvw9rtW7gZw5-wGm-SsUUqSxh4t96Y"
+          "current_key": "AIzaSyDmhp8F6j5BoPTwEGZvbjy99ki4WZK5KUs"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "1096783478376-faq56mhd4cb3ehvkhg4jmhmq56cnvc3u.apps.googleusercontent.com",
+              "client_id": "659616675679-dda64q7kv0vapltlok7u8j2kfi6582mh.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "1096783478376-t64blj27ntc40jnugaa5au9uop65es6j.apps.googleusercontent.com",
+              "client_id": "659616675679-6c3f7aepp16tadbguf3lu5ptnjaf076o.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.example.freeQuizme"
+                "bundle_id": "com.example.qcards"
               }
             }
           ]

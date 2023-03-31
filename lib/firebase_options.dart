@@ -44,40 +44,40 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyD-p2Vk8FB8TscBLHMf3PNzJnPumpJlMU8',
-    appId: '1:1096783478376:web:5c35596a06755f4dbe45dd',
-    messagingSenderId: '1096783478376',
-    projectId: 'qzcards-49ee1',
-    authDomain: 'qzcards-49ee1.firebaseapp.com',
-    storageBucket: 'qzcards-49ee1.appspot.com',
-    measurementId: 'G-48MWB1KTMS',
+    apiKey: 'AIzaSyDQAFpg_a84LTw1TaDn5uji5c4H83vOVBA',
+    appId: '1:659616675679:web:9f26e39b89a46eaf46a8ea',
+    messagingSenderId: '659616675679',
+    projectId: 'qcards-d4f31',
+    authDomain: 'qcards-d4f31.firebaseapp.com',
+    storageBucket: 'qcards-d4f31.appspot.com',
+    measurementId: 'G-Z2GZ0S8CBS',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyAndsvw9rtW7gZw5-wGm-SsUUqSxh4t96Y',
-    appId: '1:1096783478376:android:cc3e6e7986983294be45dd',
-    messagingSenderId: '1096783478376',
-    projectId: 'qzcards-49ee1',
-    storageBucket: 'qzcards-49ee1.appspot.com',
+    apiKey: 'AIzaSyDmhp8F6j5BoPTwEGZvbjy99ki4WZK5KUs',
+    appId: '1:659616675679:android:ace0168f2a3930d346a8ea',
+    messagingSenderId: '659616675679',
+    projectId: 'qcards-d4f31',
+    storageBucket: 'qcards-d4f31.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyANU8NJNKKBDbApBh36VaAjWn6KxRdQC3k',
-    appId: '1:1096783478376:ios:0be624d4667b7c19be45dd',
-    messagingSenderId: '1096783478376',
-    projectId: 'qzcards-49ee1',
-    storageBucket: 'qzcards-49ee1.appspot.com',
-    iosClientId: '1096783478376-t64blj27ntc40jnugaa5au9uop65es6j.apps.googleusercontent.com',
-    iosBundleId: 'com.example.freeQuizme',
+    apiKey: 'AIzaSyAVF87ZFgdRiG9WEFvtcFtthinFkyMLA2g',
+    appId: '1:659616675679:ios:447b8f56fddb65fa46a8ea',
+    messagingSenderId: '659616675679',
+    projectId: 'qcards-d4f31',
+    storageBucket: 'qcards-d4f31.appspot.com',
+    iosClientId: '659616675679-6c3f7aepp16tadbguf3lu5ptnjaf076o.apps.googleusercontent.com',
+    iosBundleId: 'com.example.qcards',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyANU8NJNKKBDbApBh36VaAjWn6KxRdQC3k',
-    appId: '1:1096783478376:ios:0be624d4667b7c19be45dd',
-    messagingSenderId: '1096783478376',
-    projectId: 'qzcards-49ee1',
-    storageBucket: 'qzcards-49ee1.appspot.com',
-    iosClientId: '1096783478376-t64blj27ntc40jnugaa5au9uop65es6j.apps.googleusercontent.com',
-    iosBundleId: 'com.example.freeQuizme',
+    apiKey: 'AIzaSyAVF87ZFgdRiG9WEFvtcFtthinFkyMLA2g',
+    appId: '1:659616675679:ios:447b8f56fddb65fa46a8ea',
+    messagingSenderId: '659616675679',
+    projectId: 'qcards-d4f31',
+    storageBucket: 'qcards-d4f31.appspot.com',
+    iosClientId: '659616675679-6c3f7aepp16tadbguf3lu5ptnjaf076o.apps.googleusercontent.com',
+    iosBundleId: 'com.example.qcards',
   );
 }

@@ -33,11 +33,14 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Align(
-                      alignment: Alignment.center,
-                      child: Text(
-                        'QCard',
-                        style: TextStyle(fontSize: 24),
+                    Container(
+                      margin: const EdgeInsets.symmetric(
+                        vertical: 25,
+                      ),
+                      child: const CircleAvatar(
+                        radius: 100,
+                        backgroundImage:
+                            AssetImage('assets/images/QCard_logo.png'),
                       ),
                     ),
                     Column(
@@ -110,38 +113,47 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
                           padding: const EdgeInsets.all(24.0),
                           child: authService.isLoading
                               ? const CircularProgressIndicator()
-                              : ElevatedButton(
-                                  onPressed: () async {
-                                    if (formKey.currentState!.validate()) {
-                                      await authService.createUser(
-                                          firstName:
-                                              firstNameTxtFormController.text,
-                                          lastName:
-                                              lastNameTxtFormController.text,
-                                          email: emailTxtFormController.text,
-                                          password:
-                                              passwordTxtFormController.text);
-                                      if (mounted) {
-                                        if (authService.error.isNotEmpty) {
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(
-                                            SnackBar(
-                                              backgroundColor: Colors.redAccent,
-                                              content: Text(authService.error),
-                                            ),
-                                          );
+                              : SizedBox(
+                                  height: 50,
+                                  width: 100,
+                                  child: ElevatedButton(
+                                    onPressed: () async {
+                                      if (formKey.currentState!.validate()) {
+                                        await authService.createUser(
+                                            firstName:
+                                                firstNameTxtFormController.text,
+                                            lastName:
+                                                lastNameTxtFormController.text,
+                                            email: emailTxtFormController.text,
+                                            password:
+                                                passwordTxtFormController.text);
+                                        if (mounted) {
+                                          if (authService.error.isNotEmpty) {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              SnackBar(
+                                                backgroundColor:
+                                                    Colors.redAccent,
+                                                content:
+                                                    Text(authService.error),
+                                              ),
+                                            );
+                                          }
+                                          firstNameTxtFormController.clear();
+                                          firstNameTxtFormController.clear();
+                                          lastNameTxtFormController.clear();
+                                          emailTxtFormController.clear();
+                                          passwordTxtFormController.clear();
+                                          confirmPasswordTxtFormController
+                                              .clear();
                                         }
-                                        firstNameTxtFormController.clear();
-                                        firstNameTxtFormController.clear();
-                                        lastNameTxtFormController.clear();
-                                        emailTxtFormController.clear();
-                                        passwordTxtFormController.clear();
-                                        confirmPasswordTxtFormController
-                                            .clear();
                                       }
-                                    }
-                                  },
-                                  child: const Text('Register'),
+                                    },
+                                    child: const Text(
+                                      'Register',
+                                      style: TextStyle(fontSize: 18),
+                                    ),
+                                  ),
                                 ),
                         ),
                         Align(
@@ -150,8 +162,16 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
                             onPressed: () {
                               Navigator.of(context).pop();
                             },
-                            child: const Text('Login'),
+                            child: const Text(
+                              'Login',
+                              style: TextStyle(
+                                fontSize: 18,
+                              ),
+                            ),
                           ),
+                        ),
+                        SizedBox(
+                          height: 50,
                         ),
                       ],
                     ),

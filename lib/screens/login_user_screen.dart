@@ -36,12 +36,13 @@ class _LoginUserScreenState extends State<LoginUserScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
-                      margin: const EdgeInsets.only(
-                        bottom: 50,
+                      margin: const EdgeInsets.symmetric(
+                        vertical: 25,
                       ),
                       child: const CircleAvatar(
-                        radius: 150,
-                        backgroundImage: AssetImage('images/QCard_logo.png'),
+                        radius: 100,
+                        backgroundImage:
+                            AssetImage('assets/images/QCard_logo.png'),
                       ),
                     ),
                     Column(
@@ -85,7 +86,7 @@ class _LoginUserScreenState extends State<LoginUserScreen> {
                           },
                         ),
                         Padding(
-                          padding: const EdgeInsets.all(24.0),
+                          padding: const EdgeInsets.only(top: 24.0),
                           child: authService.isLoading
                               ? const CircularProgressIndicator()
                               : SizedBox(
@@ -118,32 +119,33 @@ class _LoginUserScreenState extends State<LoginUserScreen> {
                                   ),
                                 ),
                         ),
-                        Align(
-                          alignment: Alignment.bottomRight,
-                          child: TextButton(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      const RegisterUserScreen(),
-                                ),
-                              );
-                            },
-                            child: const Text(
-                              'Register',
-                              style: TextStyle(fontSize: 18),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Align(
+                            alignment: Alignment.topRight,
+                            child: TextButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        const RegisterUserScreen(),
+                                  ),
+                                );
+                              },
+                              child: const Text(
+                                'Register',
+                                style: TextStyle(fontSize: 18),
+                              ),
                             ),
                           ),
-                        ),
-                        const SizedBox(
-                          height: 50,
                         ),
                         SocialLoginButton(
                           buttonType: SocialLoginButtonType.google,
                           onPressed: () async {
                             if (defaultTargetPlatform ==
                                 TargetPlatform.android) {
+                              print('login android');
                               await authService.signInWithGoogle();
                             } else if (defaultTargetPlatform ==
                                 TargetPlatform.iOS) {
@@ -152,7 +154,10 @@ class _LoginUserScreenState extends State<LoginUserScreen> {
                               await authService.signInWithGoogleWeb();
                             }
                           },
-                        )
+                        ),
+                        const SizedBox(
+                          height: 50,
+                        ),
                       ],
                     ),
                   ],
