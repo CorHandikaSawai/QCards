@@ -46,18 +46,16 @@ class MyApp extends StatelessWidget {
       home: StreamBuilder(
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
-          if (snapshot.hasError) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const CircularProgressIndicator.adaptive();
+          } else if (snapshot.data != null) {
+            return const HomePageScreen();
+          } else if (snapshot.hasError) {
             return Text(
               snapshot.error.toString(),
             );
           }
-          if (snapshot.connectionState == ConnectionState.active) {
-            if (snapshot.data == null) {
-              return const LoginUserScreen();
-            }
-            return const HomePageScreen();
-          }
-          return const CircularProgressIndicator();
+          return const LoginUserScreen();
         },
       ),
     );
