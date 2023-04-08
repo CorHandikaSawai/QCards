@@ -1,4 +1,4 @@
-package com.example.qcards
+package com.arcsos.qcards
 
 import io.flutter.embedding.android.FlutterActivity
 
