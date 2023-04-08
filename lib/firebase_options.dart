@@ -44,40 +44,41 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyDQAFpg_a84LTw1TaDn5uji5c4H83vOVBA',
-    appId: '1:659616675679:web:9f26e39b89a46eaf46a8ea',
-    messagingSenderId: '659616675679',
-    projectId: 'qcards-d4f31',
-    authDomain: 'qcards-d4f31.firebaseapp.com',
-    storageBucket: 'qcards-d4f31.appspot.com',
-    measurementId: 'G-Z2GZ0S8CBS',
+    apiKey: 'AIzaSyBwxT0iuCFzbnIWUilbqZAAWJNUJi6LAmY',
+    appId: '1:485260124051:web:de1a20a348f71b7b42d266',
+    messagingSenderId: '485260124051',
+    projectId: 'qcards-2856a',
+    authDomain: 'qcards-2856a.firebaseapp.com',
+    storageBucket: 'qcards-2856a.appspot.com',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDmhp8F6j5BoPTwEGZvbjy99ki4WZK5KUs',
-    appId: '1:659616675679:android:ace0168f2a3930d346a8ea',
-    messagingSenderId: '659616675679',
-    projectId: 'qcards-d4f31',
-    storageBucket: 'qcards-d4f31.appspot.com',
+    apiKey: 'AIzaSyDPFcXq1kH2XBnMp_n0TYwcLucV6WSqkmQ',
+    appId: '1:485260124051:android:d08d27a99de55f7542d266',
+    messagingSenderId: '485260124051',
+    projectId: 'qcards-2856a',
+    storageBucket: 'qcards-2856a.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyAVF87ZFgdRiG9WEFvtcFtthinFkyMLA2g',
-    appId: '1:659616675679:ios:447b8f56fddb65fa46a8ea',
-    messagingSenderId: '659616675679',
-    projectId: 'qcards-d4f31',
-    storageBucket: 'qcards-d4f31.appspot.com',
-    iosClientId: '659616675679-6c3f7aepp16tadbguf3lu5ptnjaf076o.apps.googleusercontent.com',
-    iosBundleId: 'com.example.qcards',
+    apiKey: 'AIzaSyBWYYwgt2GjX1hKAg1Z7zY1-RkJ9wOM0uc',
+    appId: '1:485260124051:ios:ffe12c9136441dd642d266',
+    messagingSenderId: '485260124051',
+    projectId: 'qcards-2856a',
+    storageBucket: 'qcards-2856a.appspot.com',
+    iosClientId:
+        '485260124051-gqmnrl3epe3von4t54aoo70ecrfbb6sm.apps.googleusercontent.com',
+    iosBundleId: 'com.arcsos.qcards',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyAVF87ZFgdRiG9WEFvtcFtthinFkyMLA2g',
-    appId: '1:659616675679:ios:447b8f56fddb65fa46a8ea',
-    messagingSenderId: '659616675679',
-    projectId: 'qcards-d4f31',
-    storageBucket: 'qcards-d4f31.appspot.com',
-    iosClientId: '659616675679-6c3f7aepp16tadbguf3lu5ptnjaf076o.apps.googleusercontent.com',
-    iosBundleId: 'com.example.qcards',
+    apiKey: 'AIzaSyBWYYwgt2GjX1hKAg1Z7zY1-RkJ9wOM0uc',
+    appId: '1:485260124051:ios:ffe12c9136441dd642d266',
+    messagingSenderId: '485260124051',
+    projectId: 'qcards-2856a',
+    storageBucket: 'qcards-2856a.appspot.com',
+    iosClientId:
+        '485260124051-gqmnrl3epe3von4t54aoo70ecrfbb6sm.apps.googleusercontent.com',
+    iosBundleId: 'com.arcsos.qcards',
   );
 }

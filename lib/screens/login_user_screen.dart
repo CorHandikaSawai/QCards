@@ -143,15 +143,12 @@ class _LoginUserScreenState extends State<LoginUserScreen> {
                         SocialLoginButton(
                           buttonType: SocialLoginButtonType.google,
                           onPressed: () async {
-                            if (defaultTargetPlatform ==
-                                TargetPlatform.android) {
-                              print('login android');
-                              await authService.signInWithGoogle();
-                            } else if (defaultTargetPlatform ==
-                                TargetPlatform.iOS) {
-                              // TODO: Implement login for IOS
-                            } else if (kIsWeb) {
+                            if (kIsWeb) {
                               await authService.signInWithGoogleWeb();
+                            } else if (defaultTargetPlatform ==
+                                    TargetPlatform.android ||
+                                defaultTargetPlatform == TargetPlatform.iOS) {
+                              await authService.signInWithGoogle();
                             }
                           },
                         ),
