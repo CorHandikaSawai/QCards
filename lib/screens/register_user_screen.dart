@@ -115,7 +115,7 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
                               ? const CircularProgressIndicator()
                               : SizedBox(
                                   height: 50,
-                                  width: 100,
+                                  width: 150,
                                   child: ElevatedButton(
                                     onPressed: () async {
                                       if (formKey.currentState!.validate()) {

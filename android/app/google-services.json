@@ -1,48 +1,40 @@
 {
   "project_info": {
-    "project_number": "659616675679",
-    "project_id": "qcards-d4f31",
-    "storage_bucket": "qcards-d4f31.appspot.com"
+    "project_number": "485260124051",
+    "project_id": "qcards-2856a",
+    "storage_bucket": "qcards-2856a.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:659616675679:android:ace0168f2a3930d346a8ea",
+        "mobilesdk_app_id": "1:485260124051:android:d08d27a99de55f7542d266",
         "android_client_info": {
-          "package_name": "com.example.qcards"
+          "package_name": "com.arcsos.qcards"
         }
       },
       "oauth_client": [
         {
-          "client_id": "659616675679-i2vbfcj52prt8ggegbde4raaprv6a8bk.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.qcards",
-            "certificate_hash": "4d18c387fffcfa85dedc95ed3356185c63212e12"
-          }
-        },
-        {
-          "client_id": "659616675679-nostem0b0t0187u9sd1e5t2rli3c8huj.apps.googleusercontent.com",
+          "client_id": "485260124051-i4mivmbctpgg84vj6kvka58gnb10o9oq.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDmhp8F6j5BoPTwEGZvbjy99ki4WZK5KUs"
+          "current_key": "AIzaSyDPFcXq1kH2XBnMp_n0TYwcLucV6WSqkmQ"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "659616675679-dda64q7kv0vapltlok7u8j2kfi6582mh.apps.googleusercontent.com",
+              "client_id": "485260124051-b713d3i33bijosu98aq5fbgfnm385nh0.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "659616675679-6c3f7aepp16tadbguf3lu5ptnjaf076o.apps.googleusercontent.com",
+              "client_id": "485260124051-gqmnrl3epe3von4t54aoo70ecrfbb6sm.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.example.qcards"
+                "bundle_id": "com.arcsos.qcards"
               }
             }
           ]

@@ -1,4 +1,4 @@
-# QCard
+# qcards
 
 A new Flutter project.
 

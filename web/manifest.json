@@ -1,35 +1,35 @@
 {
-  "name": "qcards",
-  "short_name": "qcards",
-  "start_url": ".",
-  "display": "standalone",
-  "background_color": "#0175C2",
-  "theme_color": "#0175C2",
-  "description": "QCards is a digital flashcards app designed to help users study and retain information more effectively. With QCards, users can easily create and organize virtual flashcards to help them memorize and review important information. Users can create custom decks of cards for a variety of subjects, from language vocabulary to exam preparation. Each card can feature a question or prompt on one side and the answer on the other. Users can also add images or audio files to their cards to help with visual or auditory learning. One of the key features of QCards is its adaptive learning system, which tracks the user's progress and adjusts the difficulty of the flashcards accordingly. This ensures that users are challenged enough to learn, but not overwhelmed by too much information at once. In addition, QCards offers a variety of study modes, including a timed mode and a self-assessment mode, allowing users to customize their study experience to fit their needs. The app also includes a variety of customization options, such as different fonts and colors, making it easy to personalize the flashcards to fit the user's preferences. Whether you're studying for an exam or trying to learn a new language, QCards is the perfect tool to help you memorize and retain information more effectively.",
-  "orientation": "portrait-primary",
-  "prefer_related_applications": false,
-  "icons": [
-    {
-      "src": "icons/Icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png"
-    },
-    {
-      "src": "icons/Icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png"
-    },
-    {
-      "src": "icons/Icon-maskable-192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "maskable"
-    },
-    {
-      "src": "icons/Icon-maskable-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "maskable"
-    }
-  ]
+    "name": "qcards",
+    "short_name": "qcards",
+    "start_url": ".",
+    "display": "standalone",
+    "background_color": "#0175C2",
+    "theme_color": "#0175C2",
+    "description": "A new Flutter project.",
+    "orientation": "portrait-primary",
+    "prefer_related_applications": false,
+    "icons": [
+        {
+            "src": "icons/Icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "icons/Icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        },
+        {
+            "src": "icons/Icon-maskable-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "maskable"
+        },
+        {
+            "src": "icons/Icon-maskable-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "maskable"
+        }
+    ]
 }
