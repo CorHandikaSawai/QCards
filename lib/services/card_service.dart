@@ -27,14 +27,17 @@ class CardService extends ChangeNotifier {
           });
         }
         if (sortValue == "A-Z") {
-          allSubjects
-              .sort(((a, b) => a['subjectName']!.compareTo(b['subjectName']!)));
+          allSubjects.sort(((a, b) => a['subjectName']!
+              .toLowerCase()
+              .compareTo(b['subjectName']!.toLowerCase())));
         } else if (sortValue == "Z-A") {
-          allSubjects
-              .sort(((a, b) => b['subjectName']!.compareTo(a['subjectName']!)));
+          allSubjects.sort(((a, b) => b['subjectName']!
+              .toLowerCase()
+              .compareTo(a['subjectName']!.toLowerCase())));
         } else {
-          allSubjects
-              .sort(((a, b) => b['lastUpdated']!.compareTo(a['lastUpdated']!)));
+          allSubjects.sort(((a, b) => b['lastUpdated']!
+              .toLowerCase()
+              .compareTo(a['lastUpdated']!.toLowerCase())));
         }
       });
     } catch (e) {
