@@ -7,7 +7,7 @@ import 'package:qcards/services/auth_service.dart';
 import 'package:qcards/services/card_service.dart';
 import 'package:provider/provider.dart';
 
-class CollectionCard extends StatelessWidget {
+class CollectionCard extends StatefulWidget {
   const CollectionCard({
     Key? key,
     required this.subjectName,
@@ -16,6 +16,13 @@ class CollectionCard extends StatelessWidget {
 
   final String subjectName;
   final String count;
+
+  @override
+  State<CollectionCard> createState() => _CollectionCardState();
+}
+
+class _CollectionCardState extends State<CollectionCard> {
+  bool isLoading = false;
 
   _showDialog(String action, BuildContext context, userId) {
     showDialog(
@@ -29,9 +36,27 @@ class CollectionCard extends StatelessWidget {
         actions: [
           TextButton(
             onPressed: () async {
+              showDialog(
+                barrierDismissible: false,
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    content: Row(
+                      children: [
+                        const CircularProgressIndicator(),
+                        Container(
+                          margin: const EdgeInsets.only(left: 7),
+                          child: const Text("Loading..."),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              );
               if (action == 'delete') {
                 await CardService()
-                    .deleteCollection(subjectName: subjectName, userId: userId)
+                    .deleteCollection(
+                        subjectName: widget.subjectName, userId: userId)
                     .then(
                       (_) => Navigator.pushAndRemoveUntil(
                           context,
@@ -40,29 +65,33 @@ class CollectionCard extends StatelessWidget {
                           ),
                           (route) => false),
                     );
+                Navigator.of(context).pop();
               }
               if (action == 'edit') {
                 await CardService()
                     .getCardsFromSubject(
-                        subjectName: subjectName, userId: userId)
+                        subjectName: widget.subjectName, userId: userId)
                     .then(
                       (cards) => Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
                             builder: (context) => EditCardsScreen(
-                              subjectName: subjectName,
+                              subjectName: widget.subjectName,
                               cards: cards,
                             ),
                           ),
                           (route) => false),
                     );
+                setState(() {
+                  isLoading = false;
+                });
               }
             },
             child: const Text('Yes'),
           ),
           TextButton(
             onPressed: () {
-              Navigator.pop(context);
+              Navigator.of(context).pop();
             },
             child: const Text('No'),
           ),
@@ -73,14 +102,13 @@ class CollectionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final authService = Provider.of<AuthenticationService>(context);
     return InkWell(
       onTap: () {
         Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) => StudyScreen(
-              subjectName: subjectName,
+              subjectName: widget.subjectName,
               userId: FirebaseAuth.instance.currentUser!.uid,
             ),
           ),
@@ -100,13 +128,13 @@ class CollectionCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Text(
-                        subjectName,
+                        widget.subjectName,
                         style: const TextStyle(
                           fontSize: 24,
                         ),
                       ),
                       Text(
-                        '$count ${int.parse(count) > 1 ? 'cards' : 'card'}',
+                        '${widget.count} ${int.parse(widget.count) > 1 ? 'cards' : 'card'}',
                         style: const TextStyle(
                           fontSize: 16,
                         ),

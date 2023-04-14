@@ -1,3 +1,4 @@
+import 'dart:html';
 import 'dart:io' show Platform;
 import 'package:flutter/foundation.dart' show defaultTargetPlatform, kIsWeb;
 import 'package:flutter/material.dart';
@@ -18,6 +19,7 @@ class _LoginUserScreenState extends State<LoginUserScreen> {
   final passwordTxtFormController = TextEditingController();
   final formKey = GlobalKey<FormState>();
   bool obscurePassword = true;
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -45,118 +47,135 @@ class _LoginUserScreenState extends State<LoginUserScreen> {
                             AssetImage('assets/images/QCard_logo.png'),
                       ),
                     ),
-                    Column(
-                      children: [
-                        TextFormField(
-                          keyboardType: TextInputType.emailAddress,
-                          controller: emailTxtFormController,
-                          decoration: const InputDecoration(
-                            label: Text('Email'),
-                          ),
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return 'Cannot Be Empty';
-                            }
-                            return null;
-                          },
-                        ),
-                        TextFormField(
-                          obscureText: obscurePassword,
-                          controller: passwordTxtFormController,
-                          decoration: InputDecoration(
-                            label: const Text('Password'),
-                            suffix: IconButton(
-                              onPressed: () {
-                                setState(() {
-                                  obscurePassword = !obscurePassword;
-                                });
-                              },
-                              icon: obscurePassword
-                                  ? const Icon(Icons.visibility_off)
-                                  : const Icon(Icons.visibility),
-                            ),
-                          ),
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return 'Cannot Be Empty';
-                            }
-                            return null;
-                          },
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 24.0),
-                          child: authService.isLoading
-                              ? const CircularProgressIndicator()
-                              : SizedBox(
-                                  height: 50,
-                                  width: 100,
-                                  child: ElevatedButton(
-                                    onPressed: () async {
-                                      if (formKey.currentState!.validate()) {
-                                        await authService.login(
-                                            email: emailTxtFormController.text,
-                                            password:
-                                                passwordTxtFormController.text);
-                                      }
-                                      if (mounted) {
-                                        if (authService.error.isNotEmpty) {
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(
-                                            SnackBar(
-                                              backgroundColor: Colors.redAccent,
-                                              content: Text(authService.error),
-                                            ),
-                                          );
-                                        }
-                                      }
+                    isLoading
+                        ? const CircularProgressIndicator.adaptive()
+                        : Column(
+                            children: [
+                              TextFormField(
+                                keyboardType: TextInputType.emailAddress,
+                                controller: emailTxtFormController,
+                                decoration: const InputDecoration(
+                                  label: Text('Email'),
+                                ),
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'Cannot Be Empty';
+                                  }
+                                  return null;
+                                },
+                              ),
+                              TextFormField(
+                                obscureText: obscurePassword,
+                                controller: passwordTxtFormController,
+                                decoration: InputDecoration(
+                                  label: const Text('Password'),
+                                  suffix: IconButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        obscurePassword = !obscurePassword;
+                                      });
+                                    },
+                                    icon: obscurePassword
+                                        ? const Icon(Icons.visibility_off)
+                                        : const Icon(Icons.visibility),
+                                  ),
+                                ),
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'Cannot Be Empty';
+                                  }
+                                  return null;
+                                },
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 24.0),
+                                child: authService.isLoading
+                                    ? const CircularProgressIndicator()
+                                    : SizedBox(
+                                        height: 50,
+                                        width: 100,
+                                        child: ElevatedButton(
+                                          onPressed: () async {
+                                            if (formKey.currentState!
+                                                .validate()) {
+                                              await authService.login(
+                                                  email: emailTxtFormController
+                                                      .text,
+                                                  password:
+                                                      passwordTxtFormController
+                                                          .text);
+                                            }
+                                            if (mounted) {
+                                              if (authService
+                                                  .error.isNotEmpty) {
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(
+                                                  SnackBar(
+                                                    backgroundColor:
+                                                        Colors.redAccent,
+                                                    content:
+                                                        Text(authService.error),
+                                                  ),
+                                                );
+                                              }
+                                            }
+                                          },
+                                          child: const Text(
+                                            'Login',
+                                            style: TextStyle(fontSize: 18),
+                                          ),
+                                        ),
+                                      ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Align(
+                                  alignment: Alignment.topRight,
+                                  child: TextButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              const RegisterUserScreen(),
+                                        ),
+                                      );
                                     },
                                     child: const Text(
-                                      'Login',
+                                      'Register',
                                       style: TextStyle(fontSize: 18),
                                     ),
                                   ),
                                 ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Align(
-                            alignment: Alignment.topRight,
-                            child: TextButton(
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        const RegisterUserScreen(),
-                                  ),
-                                );
-                              },
-                              child: const Text(
-                                'Register',
-                                style: TextStyle(fontSize: 18),
                               ),
-                            ),
+                              SocialLoginButton(
+                                buttonType: SocialLoginButtonType.google,
+                                onPressed: () async {
+                                  setState(() {
+                                    isLoading = true;
+                                  });
+                                  if (kIsWeb) {
+                                    await authService.signInWithGoogleWeb();
+                                  } else if (defaultTargetPlatform ==
+                                          TargetPlatform.android ||
+                                      defaultTargetPlatform ==
+                                          TargetPlatform.iOS) {
+                                    await authService.signInWithGoogle();
+                                  }
+                                  setState(() {
+                                    isLoading = false;
+                                  });
+                                },
+                              ),
+                              const SizedBox(
+                                height: 50,
+                              ),
+                            ],
                           ),
-                        ),
-                        SocialLoginButton(
-                          buttonType: SocialLoginButtonType.google,
-                          onPressed: () async {
-                            if (kIsWeb) {
-                              await authService.signInWithGoogleWeb();
-                            } else if (defaultTargetPlatform ==
-                                    TargetPlatform.android ||
-                                defaultTargetPlatform == TargetPlatform.iOS) {
-                              await authService.signInWithGoogle();
-                            }
-                          },
-                        ),
-                        const SizedBox(
-                          height: 50,
-                        ),
-                      ],
-                    ),
                   ],
                 ),
               ),

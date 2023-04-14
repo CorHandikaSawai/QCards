@@ -135,6 +135,24 @@ class _HomePageScreenState extends State<HomePageScreen> {
                         child: ElevatedButton(
                           onPressed: () async {
                             if (_formKey.currentState!.validate()) {
+                              showDialog(
+                                barrierDismissible: false,
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    content: Row(
+                                      children: [
+                                        const CircularProgressIndicator(),
+                                        Container(
+                                          margin:
+                                              const EdgeInsets.only(left: 7),
+                                          child: const Text("Loading..."),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                },
+                              );
                               if (await cardService.exists(
                                   subjectName:
                                       _collectionNameTextFormController.text)) {
