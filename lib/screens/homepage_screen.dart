@@ -44,7 +44,10 @@ class _HomePageScreenState extends State<HomePageScreen> {
                   onPressed: () {
                     _scaffoldKey.currentState!.openEndDrawer();
                   },
-                  icon: const Icon(Icons.person),
+                  icon: const Icon(
+                    Icons.person,
+                    size: 32,
+                  ),
                 ),
               ],
             ),
@@ -83,7 +86,12 @@ class _HomePageScreenState extends State<HomePageScreen> {
                               .map<DropdownMenuItem<String>>((String value) {
                             return DropdownMenuItem<String>(
                               value: value,
-                              child: Text(value),
+                              child: Text(
+                                value,
+                                style: TextStyle(
+                                  fontSize: 18,
+                                ),
+                              ),
                             );
                           }).toList(),
                           onChanged: (value) {
