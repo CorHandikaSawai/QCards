@@ -118,7 +118,7 @@ class _CollectionCardState extends State<CollectionCard> {
         height: 150,
         child: Card(
           color: Colors.white,
-          elevation: 2,
+          elevation: 5,
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 0),
             child: Column(

@@ -30,9 +30,10 @@ class _CardFormWidgetState extends State<CardFormWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Card(
+      elevation: 5,
       margin: const EdgeInsets.all(10.0),
-      color: Colors.black12,
+      color: Colors.white,
       child: InkWell(
         onLongPress: () {
           setState(() {
