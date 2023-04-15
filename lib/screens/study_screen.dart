@@ -19,7 +19,9 @@ class _StudyScreenState extends State<StudyScreen> {
 
   void getCards() async {
     final cards = await CardService().getCardsFromSubject(
-        userId: widget.userId, subjectName: widget.subjectName);
+      userId: widget.userId,
+      subjectName: widget.subjectName,
+    );
     if (cards.isNotEmpty) {
       for (var card in cards) {
         flippableCards.add(

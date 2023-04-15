@@ -19,6 +19,7 @@ class FlippableCardWidget extends StatelessWidget {
         height: double.infinity,
         width: double.infinity,
         child: Card(
+          elevation: 5,
           child: Center(
             child: Padding(
               padding: const EdgeInsets.all(16.0),
@@ -33,6 +34,7 @@ class FlippableCardWidget extends StatelessWidget {
         ),
       ),
       back: Card(
+        elevation: 5,
         child: Center(
           child: Padding(
             padding: const EdgeInsets.all(16.0),
