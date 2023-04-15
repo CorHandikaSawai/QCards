@@ -1,20 +1,34 @@
+import 'dart:ui';
+
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
 
-class FlippableCardWidget extends StatelessWidget {
-  const FlippableCardWidget({
+class FlippableCardWidget extends StatefulWidget {
+  FlippableCardWidget({
     Key? key,
     required this.question,
     required this.answer,
+    required this.isFront,
   }) : super(key: key);
 
   final String question;
   final String answer;
+  bool isFront;
+  GlobalKey<FlipCardState> flipCardKey = GlobalKey<FlipCardState>();
 
+  @override
+  State<FlippableCardWidget> createState() => _FlippableCardWidgetState();
+}
+
+class _FlippableCardWidgetState extends State<FlippableCardWidget> {
   @override
   Widget build(BuildContext context) {
     return FlipCard(
+      key: widget.flipCardKey,
       fill: Fill.fillBack,
+      onFlipDone: (isFront) {
+        widget.isFront = isFront;
+      },
       front: SizedBox(
         height: double.infinity,
         width: double.infinity,
@@ -25,7 +39,7 @@ class FlippableCardWidget extends StatelessWidget {
               padding: const EdgeInsets.all(16.0),
               child: SingleChildScrollView(
                 child: Text(
-                  question,
+                  widget.question,
                   style: TextStyle(fontSize: 16),
                 ),
               ),
@@ -40,7 +54,7 @@ class FlippableCardWidget extends StatelessWidget {
             padding: const EdgeInsets.all(16.0),
             child: SingleChildScrollView(
               child: Text(
-                answer,
+                widget.answer,
                 style: TextStyle(fontSize: 16),
               ),
             ),

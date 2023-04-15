@@ -1,3 +1,4 @@
+import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
 import 'package:qcards/services/card_service.dart';
 import 'package:qcards/widgets/flippable_card_widget.dart';
@@ -14,7 +15,7 @@ class StudyScreen extends StatefulWidget {
 }
 
 class _StudyScreenState extends State<StudyScreen> {
-  List<Widget> flippableCards = [];
+  List<FlippableCardWidget> flippableCards = [];
   int _currentCardIndex = 0;
 
   void getCards() async {
@@ -25,12 +26,10 @@ class _StudyScreenState extends State<StudyScreen> {
     if (cards.isNotEmpty) {
       for (var card in cards) {
         flippableCards.add(
-          Visibility(
-            visible: true,
-            child: FlippableCardWidget(
-              question: card['question']!,
-              answer: card['answer']!,
-            ),
+          FlippableCardWidget(
+            question: card['question']!,
+            answer: card['answer']!,
+            isFront: true,
           ),
         );
       }
@@ -78,14 +77,20 @@ class _StudyScreenState extends State<StudyScreen> {
                       child: InkWell(
                         onTap: () {
                           if (_currentCardIndex <= 0) {
-                            setState(() {
-                              _currentCardIndex = flippableCards.length - 1;
-                            });
+                            _currentCardIndex = flippableCards.length - 1;
                           } else {
-                            setState(() {
-                              _currentCardIndex--;
-                            });
+                            _currentCardIndex--;
                           }
+                          if (flippableCards[_currentCardIndex].isFront ==
+                              false) {
+                            flippableCards[_currentCardIndex]
+                                .flipCardKey
+                                .currentState!
+                                .toggleCardWithoutAnimation();
+                          }
+                          setState(() {
+                            _currentCardIndex;
+                          });
                         },
                         child: const Icon(Icons.arrow_left),
                       ),
@@ -101,14 +106,20 @@ class _StudyScreenState extends State<StudyScreen> {
                       child: InkWell(
                         onTap: () {
                           if (_currentCardIndex >= flippableCards.length - 1) {
-                            setState(() {
-                              _currentCardIndex = 0;
-                            });
+                            _currentCardIndex = 0;
                           } else {
-                            setState(() {
-                              _currentCardIndex++;
-                            });
+                            _currentCardIndex++;
                           }
+                          if (flippableCards[_currentCardIndex].isFront ==
+                              false) {
+                            flippableCards[_currentCardIndex]
+                                .flipCardKey
+                                .currentState!
+                                .toggleCardWithoutAnimation();
+                          }
+                          setState(() {
+                            _currentCardIndex;
+                          });
                         },
                         child: const Icon(Icons.arrow_right),
                       ),
