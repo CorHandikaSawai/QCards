@@ -1,5 +1,3 @@
-import 'dart:html';
-import 'dart:io' show Platform;
 import 'package:flutter/foundation.dart' show defaultTargetPlatform, kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -166,9 +164,11 @@ class _LoginUserScreenState extends State<LoginUserScreen> {
                                           TargetPlatform.iOS) {
                                     await authService.signInWithGoogle();
                                   }
-                                  setState(() {
-                                    isLoading = false;
-                                  });
+                                  if (mounted) {
+                                    setState(() {
+                                      isLoading = false;
+                                    });
+                                  }
                                 },
                               ),
                               const SizedBox(
