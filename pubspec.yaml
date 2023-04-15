@@ -34,7 +34,6 @@ dependencies:
 flutter_native_splash:
   image: assets/images/QCard_logo_transparent.png
   color: "#00A5FD"
-  web: false
 
 dev_dependencies:
   flutter_test:
