@@ -29,10 +29,11 @@ dependencies:
   google_sign_in: ^6.1.0
   font_awesome_flutter: ^10.4.0
   social_login_buttons: ^1.0.7
-  flutter_native_splash: ^2.2.19
+  flutter_native_splash: ^2.2.18
 
 flutter_native_splash:
-  image: assets/images/QCard_logo.png
+  image: assets/images/QCard_logo_transparent.png
+  color: "#00A5FD"
 
 dev_dependencies:
   flutter_test:
@@ -43,3 +44,4 @@ flutter:
   uses-material-design: true
   assets:
       - assets/images/
+      - assets/
