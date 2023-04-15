@@ -51,9 +51,7 @@ class MyApp extends StatelessWidget {
           } else if (snapshot.data != null) {
             return const HomePageScreen();
           } else if (snapshot.hasError) {
-            return Text(
-              snapshot.error.toString(),
-            );
+            print(snapshot.error.toString());
           }
           return const LoginUserScreen();
         },
