@@ -60,6 +60,11 @@ class _HomePageScreenState extends State<HomePageScreen> {
                 ),
                 builder: (context,
                     AsyncSnapshot<List<Map<String, String>>> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(
+                      child: CircularProgressIndicator.adaptive(),
+                    );
+                  }
                   if (snapshot.hasData) {
                     subjects = [];
                     for (var element in snapshot.data!) {
