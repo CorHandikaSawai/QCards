@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
 
@@ -8,13 +6,12 @@ class FlippableCardWidget extends StatefulWidget {
     Key? key,
     required this.question,
     required this.answer,
-    required this.isFront,
+    required this.flipCardKey,
   }) : super(key: key);
 
   final String question;
   final String answer;
-  bool isFront;
-  GlobalKey<FlipCardState> flipCardKey = GlobalKey<FlipCardState>();
+  final GlobalKey<FlipCardState> flipCardKey;
 
   @override
   State<FlippableCardWidget> createState() => _FlippableCardWidgetState();
@@ -26,9 +23,6 @@ class _FlippableCardWidgetState extends State<FlippableCardWidget> {
     return FlipCard(
       key: widget.flipCardKey,
       fill: Fill.fillBack,
-      onFlipDone: (isFront) {
-        widget.isFront = isFront;
-      },
       front: SizedBox(
         height: double.infinity,
         width: double.infinity,

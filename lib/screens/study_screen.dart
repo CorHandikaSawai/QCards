@@ -29,7 +29,7 @@ class _StudyScreenState extends State<StudyScreen> {
           FlippableCardWidget(
             question: card['question']!,
             answer: card['answer']!,
-            isFront: true,
+            flipCardKey: GlobalKey<FlipCardState>(),
           ),
         );
       }
@@ -81,15 +81,8 @@ class _StudyScreenState extends State<StudyScreen> {
                           } else {
                             _currentCardIndex--;
                           }
-                          if (flippableCards[_currentCardIndex].isFront ==
-                              false) {
-                            flippableCards[_currentCardIndex]
-                                .flipCardKey
-                                .currentState!
-                                .toggleCardWithoutAnimation();
-                          }
                           setState(() {
-                            _currentCardIndex;
+                            flippableCards[_currentCardIndex];
                           });
                         },
                         child: const Icon(Icons.arrow_left),
@@ -110,15 +103,8 @@ class _StudyScreenState extends State<StudyScreen> {
                           } else {
                             _currentCardIndex++;
                           }
-                          if (flippableCards[_currentCardIndex].isFront ==
-                              false) {
-                            flippableCards[_currentCardIndex]
-                                .flipCardKey
-                                .currentState!
-                                .toggleCardWithoutAnimation();
-                          }
                           setState(() {
-                            _currentCardIndex;
+                            flippableCards[_currentCardIndex];
                           });
                         },
                         child: const Icon(Icons.arrow_right),
