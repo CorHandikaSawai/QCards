@@ -170,46 +170,56 @@ class CardService extends ChangeNotifier {
       {required String userId,
       required String subjectName,
       required List<CardFormWidget> cards}) async {
+    error = '';
+    isLoading = true;
+    notifyListeners();
     int numOfCards = 0;
-    for (var card in cards) {
-      if (card.isUpdated == true) {
-        _firestore
-            .collection('collections')
-            .doc(userId)
-            .collection('subjects')
-            .doc(subjectName)
-            .collection('cards')
-            .doc(card.cardId)
-            .set({
-          'question': card.questionFieldController.text,
-          'answer': card.answerFieldController.text
-        });
-      } else {
-        if (card.isUpdated == null) {
-          await _firestore
+    try {
+      for (var card in cards) {
+        if (card.isUpdated == true) {
+          _firestore
               .collection('collections')
               .doc(userId)
               .collection('subjects')
               .doc(subjectName)
               .collection('cards')
-              .add({
+              .doc(card.cardId)
+              .set({
             'question': card.questionFieldController.text,
             'answer': card.answerFieldController.text
           });
+        } else {
+          if (card.isUpdated == null) {
+            await _firestore
+                .collection('collections')
+                .doc(userId)
+                .collection('subjects')
+                .doc(subjectName)
+                .collection('cards')
+                .add({
+              'question': card.questionFieldController.text,
+              'answer': card.answerFieldController.text
+            });
+          }
         }
+        numOfCards++;
       }
-      numOfCards++;
-    }
-    if (numOfCards != 0) {
-      await _firestore
-          .collection('collections')
-          .doc(userId)
-          .collection('subjects')
-          .doc(subjectName)
-          .set({
-        'count': numOfCards.toString(),
-        'lastUpdated': DateTime.now().millisecondsSinceEpoch.toString(),
-      });
+      if (numOfCards != 0) {
+        await _firestore
+            .collection('collections')
+            .doc(userId)
+            .collection('subjects')
+            .doc(subjectName)
+            .set({
+          'count': numOfCards.toString(),
+          'lastUpdated': DateTime.now().millisecondsSinceEpoch.toString(),
+        });
+      }
+    } catch (e) {
+      print(e);
+    } finally {
+      isLoading = false;
+      notifyListeners();
     }
   }
 

@@ -56,7 +56,7 @@ class _EditCardsScreenState extends State<EditCardsScreen> {
         centerTitle: true,
         actions: [
           Tab(
-            child: IconButton(
+            child: TextButton(
               onPressed: () async {
                 await cardService.updateCards(
                     userId: FirebaseAuth.instance.currentUser!.uid,
@@ -71,11 +71,17 @@ class _EditCardsScreenState extends State<EditCardsScreen> {
                       (route) => false);
                 }
               },
-              icon: cardService.isLoading
+              child: cardService.isLoading
                   ? const CircularProgressIndicator.adaptive(
                       backgroundColor: Colors.white,
                     )
-                  : Icon(Icons.save),
+                  : const Text(
+                      'Save',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                      ),
+                    ),
             ),
           ),
         ],

@@ -176,6 +176,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                                     backgroundColor: Colors.redAccent,
                                   ),
                                 );
+                                Navigator.of(context).pop();
                               } else {
                                 Navigator.pushReplacement(
                                   context,
