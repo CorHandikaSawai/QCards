@@ -39,10 +39,24 @@ class _EditCardsScreenState extends State<EditCardsScreen> {
     final cardService = Provider.of<CardService>(context);
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const HomePageScreen(),
+                ),
+                (route) => false);
+          },
+          icon: Icon(
+            Icons.arrow_back,
+          ),
+        ),
         title: Text('Editing ${widget.subjectName}'),
+        centerTitle: true,
         actions: [
           Tab(
-            child: TextButton(
+            child: IconButton(
               onPressed: () async {
                 await cardService.updateCards(
                     userId: FirebaseAuth.instance.currentUser!.uid,
@@ -57,19 +71,13 @@ class _EditCardsScreenState extends State<EditCardsScreen> {
                       (route) => false);
                 }
               },
-              child: cardService.isLoading
+              icon: cardService.isLoading
                   ? const CircularProgressIndicator.adaptive(
                       backgroundColor: Colors.white,
                     )
-                  : const Text(
-                      'Save',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                      ),
-                    ),
+                  : Icon(Icons.save),
             ),
-          )
+          ),
         ],
       ),
       body: SafeArea(
