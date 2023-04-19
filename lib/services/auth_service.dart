@@ -100,12 +100,14 @@ class AuthenticationService extends ChangeNotifier {
       await FirebaseAuth.instance
           .signInWithCredential(credential)
           .then((UserCredential userCredential) async {
-        _userService.newUserData(
-            userId: userCredential.user!.uid,
-            firstName: userCredential.user!.email.toString(),
-            lastName: '');
         currentUser =
             await _userService.getUserData(userId: userCredential.user!.uid);
+        if (currentUser == null) {
+          _userService.newUserData(
+              userId: userCredential.user!.uid,
+              firstName: userCredential.user!.email.toString(),
+              lastName: '');
+        }
       });
     } catch (e) {
       print(e);
@@ -125,12 +127,14 @@ class AuthenticationService extends ChangeNotifier {
       await FirebaseAuth.instance
           .signInWithPopup(googleProvider)
           .then((UserCredential userCredential) async {
-        _userService.newUserData(
-            userId: userCredential.user!.uid,
-            firstName: userCredential.user!.email.toString(),
-            lastName: '');
         currentUser =
             await _userService.getUserData(userId: userCredential.user!.uid);
+        if (currentUser == null) {
+          _userService.newUserData(
+              userId: userCredential.user!.uid,
+              firstName: userCredential.user!.email.toString(),
+              lastName: '');
+        }
       });
     } catch (e) {
       print(e);

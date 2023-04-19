@@ -28,6 +28,7 @@ class _EditCardsScreenState extends State<EditCardsScreen> {
         initialQuestion: card['question'],
         initialAnswer: card['answer'],
         cardId: card['cardId'],
+        isUpdated: false,
       ));
     }
     super.initState();
@@ -43,7 +44,7 @@ class _EditCardsScreenState extends State<EditCardsScreen> {
           Tab(
             child: TextButton(
               onPressed: () async {
-                await cardService.saveAllCards(
+                await cardService.updateCards(
                     userId: FirebaseAuth.instance.currentUser!.uid,
                     subjectName: widget.subjectName.toString(),
                     cards: listOfCards);

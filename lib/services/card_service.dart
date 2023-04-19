@@ -100,34 +100,19 @@ class CardService extends ChangeNotifier {
         //Only save cards that are not completely empty
         if (card.answerFieldController.text.isNotEmpty ||
             card.questionFieldController.text.isNotEmpty) {
-          //Edited cards
-          if (card.cardId != null) {
-            _firestore
-                .collection('collections')
-                .doc(userId)
-                .collection('subjects')
-                .doc(subjectName)
-                .collection('cards')
-                .doc(card.cardId)
-                .set({
-              'question': card.questionFieldController.text,
-              'answer': card.answerFieldController.text
-            });
-          } else {
-            //New cards
-            final subject = await _firestore
-                .collection('collections')
-                .doc(userId)
-                .collection('subjects')
-                .doc(subjectName)
-                .collection('cards')
-                .add({
-              'question': card.questionFieldController.text,
-              'answer': card.answerFieldController.text
-            });
-          }
-          numOfCards++;
+          //New cards
+          await _firestore
+              .collection('collections')
+              .doc(userId)
+              .collection('subjects')
+              .doc(subjectName)
+              .collection('cards')
+              .add({
+            'question': card.questionFieldController.text,
+            'answer': card.answerFieldController.text
+          });
         }
+        numOfCards++;
       }
       //Card counts
       if (numOfCards != 0) {
@@ -138,9 +123,7 @@ class CardService extends ChangeNotifier {
             .doc(subjectName)
             .set({
           'count': numOfCards.toString(),
-          'lastUpdated': DateTime.now()
-              .millisecondsSinceEpoch
-              .toString(), //TODO: check if this works
+          'lastUpdated': DateTime.now().millisecondsSinceEpoch.toString(),
         });
       } else {
         await deleteCollection(subjectName: subjectName, userId: userId);
@@ -180,6 +163,54 @@ class CardService extends ChangeNotifier {
       print(e);
     }
     return questionsAnwers;
+  }
+
+  //Update cards
+  Future<void> updateCards(
+      {required String userId,
+      required String subjectName,
+      required List<CardFormWidget> cards}) async {
+    int numOfCards = 0;
+    for (var card in cards) {
+      if (card.isUpdated == true) {
+        _firestore
+            .collection('collections')
+            .doc(userId)
+            .collection('subjects')
+            .doc(subjectName)
+            .collection('cards')
+            .doc(card.cardId)
+            .set({
+          'question': card.questionFieldController.text,
+          'answer': card.answerFieldController.text
+        });
+      } else {
+        if (card.isUpdated == null) {
+          await _firestore
+              .collection('collections')
+              .doc(userId)
+              .collection('subjects')
+              .doc(subjectName)
+              .collection('cards')
+              .add({
+            'question': card.questionFieldController.text,
+            'answer': card.answerFieldController.text
+          });
+        }
+      }
+      numOfCards++;
+    }
+    if (numOfCards != 0) {
+      await _firestore
+          .collection('collections')
+          .doc(userId)
+          .collection('subjects')
+          .doc(subjectName)
+          .set({
+        'count': numOfCards.toString(),
+        'lastUpdated': DateTime.now().millisecondsSinceEpoch.toString(),
+      });
+    }
   }
 
   Future<bool> exists({required String subjectName}) async {

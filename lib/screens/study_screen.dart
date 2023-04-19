@@ -55,6 +55,12 @@ class _StudyScreenState extends State<StudyScreen> {
         minimum: const EdgeInsets.all(8.0),
         child: Column(
           children: [
+            Text(
+              '${_currentCardIndex + 1} / ${flippableCards.length}',
+              style: TextStyle(
+                fontSize: 24,
+              ),
+            ),
             Expanded(
               flex: 6,
               child: flippableCards.isNotEmpty

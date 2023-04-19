@@ -2,13 +2,18 @@ import 'package:flutter/material.dart';
 
 class CardFormWidget extends StatefulWidget {
   CardFormWidget(
-      {super.key, this.initialAnswer, this.initialQuestion, this.cardId});
+      {super.key,
+      this.initialAnswer,
+      this.initialQuestion,
+      this.cardId,
+      this.isUpdated});
 
   final TextEditingController questionFieldController = TextEditingController();
   final TextEditingController answerFieldController = TextEditingController();
   final String? initialQuestion;
   final String? initialAnswer;
   final String? cardId;
+  bool? isUpdated;
 
   @override
   State<CardFormWidget> createState() => _CardFormWidgetState();
@@ -47,14 +52,12 @@ class _CardFormWidgetState extends State<CardFormWidget> {
               actions: [
                 TextButton(
                   onPressed: () {
-                    print('Yes');
                     Navigator.pop(context);
                   },
                   child: const Text('Yes'),
                 ),
                 TextButton(
                   onPressed: () {
-                    print('No');
                     Navigator.pop(context);
                   },
                   child: const Text('No'),
@@ -72,6 +75,13 @@ class _CardFormWidgetState extends State<CardFormWidget> {
                 child: const Text('Question'),
               ),
               TextFormField(
+                onChanged: (value) {
+                  if (value == widget.questionFieldController.text) {
+                    widget.isUpdated = false;
+                  } else {
+                    widget.isUpdated = true;
+                  }
+                },
                 controller: widget.questionFieldController,
                 keyboardType: TextInputType.multiline,
                 maxLines: null,
@@ -82,6 +92,13 @@ class _CardFormWidgetState extends State<CardFormWidget> {
                 child: const Text('Answer'),
               ),
               TextFormField(
+                onChanged: (value) {
+                  if (value == widget.questionFieldController.text) {
+                    widget.isUpdated = false;
+                  } else {
+                    widget.isUpdated = true;
+                  }
+                },
                 controller: widget.answerFieldController,
                 keyboardType: TextInputType.multiline,
                 maxLines: null,

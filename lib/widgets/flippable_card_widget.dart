@@ -2,7 +2,7 @@ import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
 
 class FlippableCardWidget extends StatefulWidget {
-  FlippableCardWidget({
+  const FlippableCardWidget({
     Key? key,
     required this.question,
     required this.answer,
