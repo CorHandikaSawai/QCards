@@ -35,38 +35,17 @@ class _CardFormWidgetState extends State<CardFormWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 5,
-      margin: const EdgeInsets.all(10.0),
-      color: Colors.white,
-      child: InkWell(
-        onLongPress: () {
-          setState(() {
-            counter++;
-          });
-          showDialog(
-            context: context,
-            builder: (BuildContext context) => AlertDialog(
-              title: const Text('Delete'),
-              content: const Text('Delete this card?'),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                    //IMPLEMENT Deletion
-                  },
-                  child: const Text('Yes'),
-                ),
-                TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Text('No'),
-                ),
-              ],
-            ),
-          );
-        },
+    return Dismissible(
+      key: ValueKey<String?>(widget.cardId),
+      onDismissed: (direction) {
+        widget.isUpdated = true;
+        widget.questionFieldController.text = "";
+        widget.answerFieldController.text = "";
+      },
+      child: Card(
+        elevation: 5,
+        margin: const EdgeInsets.all(10.0),
+        color: Colors.white,
         child: Container(
           padding: const EdgeInsets.all(25.0),
           child: Column(

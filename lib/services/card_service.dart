@@ -177,30 +177,41 @@ class CardService extends ChangeNotifier {
     try {
       for (var card in cards) {
         if (card.isUpdated == true) {
-          _firestore
-              .collection('collections')
-              .doc(userId)
-              .collection('subjects')
-              .doc(subjectName)
-              .collection('cards')
-              .doc(card.cardId)
-              .set({
-            'question': card.questionFieldController.text,
-            'answer': card.answerFieldController.text
-          });
-        } else {
-          if (card.isUpdated == null) {
-            await _firestore
+          if (card.questionFieldController.text == '' &&
+              card.answerFieldController.text == '') {
+            _firestore
                 .collection('collections')
                 .doc(userId)
                 .collection('subjects')
                 .doc(subjectName)
                 .collection('cards')
-                .add({
+                .doc(card.cardId)
+                .delete();
+            continue;
+          } else {
+            _firestore
+                .collection('collections')
+                .doc(userId)
+                .collection('subjects')
+                .doc(subjectName)
+                .collection('cards')
+                .doc(card.cardId)
+                .set({
               'question': card.questionFieldController.text,
               'answer': card.answerFieldController.text
             });
           }
+        } else if (card.isUpdated == null) {
+          await _firestore
+              .collection('collections')
+              .doc(userId)
+              .collection('subjects')
+              .doc(subjectName)
+              .collection('cards')
+              .add({
+            'question': card.questionFieldController.text,
+            'answer': card.answerFieldController.text
+          });
         }
         numOfCards++;
       }
