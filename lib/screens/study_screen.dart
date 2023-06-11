@@ -27,6 +27,8 @@ class _StudyScreenState extends State<StudyScreen> {
       for (var card in cards) {
         flippableCards.add(
           FlippableCardWidget(
+            subjectName: widget.subjectName,
+            cardId: card['cardId']!,
             question: card['question']!,
             answer: card['answer']!,
             flipCardKey: GlobalKey<FlipCardState>(),

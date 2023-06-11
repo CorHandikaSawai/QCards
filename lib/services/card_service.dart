@@ -22,7 +22,7 @@ class CardService extends ChangeNotifier {
         for (var element in value.docs) {
           allSubjects.add({
             'subjectName': element.id,
-            'count': element.get('count'),
+            'count': element.get('count').toString(),
             'lastUpdated': element.get('lastUpdated'),
           });
         }
@@ -122,7 +122,7 @@ class CardService extends ChangeNotifier {
             .collection('subjects')
             .doc(subjectName)
             .set({
-          'count': numOfCards.toString(),
+          'count': numOfCards,
           'lastUpdated': DateTime.now().millisecondsSinceEpoch.toString(),
         });
       } else {
@@ -165,7 +165,7 @@ class CardService extends ChangeNotifier {
     return questionsAnwers;
   }
 
-  //Update cards
+  ///Update a list of cards
   Future<void> updateCards(
       {required String userId,
       required String subjectName,
@@ -179,17 +179,11 @@ class CardService extends ChangeNotifier {
         if (card.isUpdated == true) {
           if (card.questionFieldController.text == '' &&
               card.answerFieldController.text == '') {
-            _firestore
-                .collection('collections')
-                .doc(userId)
-                .collection('subjects')
-                .doc(subjectName)
-                .collection('cards')
-                .doc(card.cardId)
-                .delete();
+            await deleteCard(
+                userId: userId, subjectName: subjectName, card: card);
             continue;
           } else {
-            _firestore
+            await _firestore
                 .collection('collections')
                 .doc(userId)
                 .collection('subjects')
@@ -222,7 +216,7 @@ class CardService extends ChangeNotifier {
             .collection('subjects')
             .doc(subjectName)
             .set({
-          'count': numOfCards.toString(),
+          'count': numOfCards,
           'lastUpdated': DateTime.now().millisecondsSinceEpoch.toString(),
         });
       }
@@ -234,6 +228,53 @@ class CardService extends ChangeNotifier {
     }
   }
 
+  ///Save one card
+  Future<void> saveCard(
+      {required String userId,
+      required String subjectName,
+      required CardFormWidget card}) async {
+    if (card.isUpdated == true) {
+      await _firestore
+          .collection('collections')
+          .doc(userId)
+          .collection('subjects')
+          .doc(subjectName)
+          .collection('cards')
+          .doc(card.cardId)
+          .set({
+        'question': card.questionFieldController.text,
+        'answer': card.answerFieldController.text
+      });
+    }
+  }
+
+  //Delete one card
+  Future<void> deleteCard(
+      {required String userId,
+      required String subjectName,
+      required CardFormWidget card}) async {
+    await _firestore
+        .collection('collections')
+        .doc(userId)
+        .collection('subjects')
+        .doc(subjectName)
+        .collection('cards')
+        .doc(card.cardId)
+        .delete()
+        .then((value) async {
+      await _firestore
+          .collection('collections')
+          .doc(userId)
+          .collection('subjects')
+          .doc(subjectName)
+          .update({
+        'count': FieldValue.increment(-1),
+        'lastUpdated': DateTime.now().millisecondsSinceEpoch.toString(),
+      });
+    });
+  }
+
+  ///Check to see subject exist or not
   Future<bool> exists({required String subjectName}) async {
     final subjectRef = await _firestore
         .collection('collections')
