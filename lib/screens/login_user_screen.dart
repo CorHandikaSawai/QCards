@@ -31,7 +31,7 @@ class _LoginUserScreenState extends State<LoginUserScreen> {
             alignment: Alignment.center,
             child: SingleChildScrollView(
               child: SizedBox(
-                width: size.width * 0.8,
+                width: size.width < 600 ? size.width * 0.8 : 600,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

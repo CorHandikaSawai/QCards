@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:qcards/services/card_service.dart';
 import 'package:qcards/widgets/card_form_widget.dart';
 
+/// A widget that displays a flashcard which can be flipped to show the answer.
+/// It also supports editing and deleting the card via a dialog.
 class FlippableCardWidget extends StatefulWidget {
   const FlippableCardWidget({
     Key? key,
@@ -25,18 +27,23 @@ class FlippableCardWidget extends StatefulWidget {
 }
 
 class _FlippableCardWidgetState extends State<FlippableCardWidget> {
-  _showDialog(String action, BuildContext context, CardFormWidget thisCard) {
+  /// Displays a confirmation dialog for either saving or deleting a card.
+  void _showDialog(
+      String action, BuildContext context, CardFormWidget thisCard) {
     showDialog(
       context: context,
       builder: (BuildContext context) => AlertDialog(
         title: Text(
+          // Capitalize the action for the dialog title
           action[0].toUpperCase() + action.substring(1),
         ),
         content: Text(
-            '${action[0].toUpperCase()}${action.substring(1)} this collection?'),
+          '${action[0].toUpperCase()}${action.substring(1)} this collection?',
+        ),
         actions: [
           TextButton(
             onPressed: () async {
+              // Show a loading indicator while performing the async action
               showDialog(
                 barrierDismissible: false,
                 context: context,
@@ -54,18 +61,21 @@ class _FlippableCardWidgetState extends State<FlippableCardWidget> {
                   );
                 },
               );
+
+              // Handle 'delete' action
               if (action == 'delete') {
                 await CardService().deleteCard(
-                    subjectName: widget.subjectName,
-                    userId: FirebaseAuth.instance.currentUser!.uid,
-                    card: thisCard);
+                  subjectName: widget.subjectName,
+                  userId: FirebaseAuth.instance.currentUser!.uid,
+                  card: thisCard,
+                );
+
                 if (mounted) {
-                  setState(() {
-                    // TODO: Cannot set state inside builder. Find a way to update the widget
-                  });
-                  Navigator.of(context).pop();
-                  Navigator.of(context).pop();
-                  Navigator.of(context).pop();
+                  // TODO: Ideally we should refresh the card list instead of just showing a snack bar
+                  setState(() {});
+                  Navigator.of(context).pop(); // Loading dialog
+                  Navigator.of(context).pop(); // Confirm dialog
+                  Navigator.of(context).pop(); // Edit dialog
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       backgroundColor: Colors.blueAccent,
@@ -74,15 +84,17 @@ class _FlippableCardWidgetState extends State<FlippableCardWidget> {
                   );
                 }
               }
+
+              // Handle 'save' action
               if (action == 'save') {
                 await CardService().saveCard(
-                    subjectName: widget.subjectName,
-                    userId: FirebaseAuth.instance.currentUser!.uid,
-                    card: thisCard);
+                  subjectName: widget.subjectName,
+                  userId: FirebaseAuth.instance.currentUser!.uid,
+                  card: thisCard,
+                );
+
                 if (mounted) {
-                  setState(() {
-                    // TODO: Cannot set state inside builder. Find a way to update the widget
-                  });
+                  setState(() {});
                   Navigator.of(context).pop();
                   Navigator.of(context).pop();
                   Navigator.of(context).pop();
@@ -99,7 +111,7 @@ class _FlippableCardWidgetState extends State<FlippableCardWidget> {
           ),
           TextButton(
             onPressed: () {
-              Navigator.of(context).pop();
+              Navigator.of(context).pop(); // Close the confirm dialog
             },
             child: const Text('No'),
           ),
@@ -110,14 +122,17 @@ class _FlippableCardWidgetState extends State<FlippableCardWidget> {
 
   @override
   Widget build(BuildContext context) {
+    // Build a reusable form widget for this card
     var thisCard = CardFormWidget(
       initialQuestion: widget.question,
       initialAnswer: widget.answer,
       cardId: widget.cardId,
       isUpdated: false,
     );
+
     return Stack(
       children: [
+        // FlipCard: front shows question, back shows answer
         FlipCard(
           key: widget.flipCardKey,
           fill: Fill.fillBack,
@@ -154,12 +169,16 @@ class _FlippableCardWidgetState extends State<FlippableCardWidget> {
             ),
           ),
         ),
+
+        // Edit button on the top right corner
         Align(
           alignment: Alignment.topRight,
           child: Padding(
             padding: const EdgeInsets.all(16),
             child: IconButton(
+              icon: Icon(Icons.edit),
               onPressed: () {
+                // Show edit dialog with card form and save/delete options
                 showDialog(
                   context: context,
                   builder: (context) => AlertDialog(
@@ -171,28 +190,27 @@ class _FlippableCardWidgetState extends State<FlippableCardWidget> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
+                            // Delete button
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: IconButton(
+                                icon: const Icon(Icons.delete,
+                                    color: Colors.redAccent),
                                 onPressed: () {
                                   _showDialog('delete', context, thisCard);
                                 },
-                                icon: const Icon(
-                                  Icons.delete,
-                                  color: Colors.redAccent,
-                                ),
                               ),
                             ),
+
+                            // Save button
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: IconButton(
+                                icon: const Icon(Icons.save,
+                                    color: Colors.blueAccent),
                                 onPressed: () {
                                   _showDialog('save', context, thisCard);
                                 },
-                                icon: const Icon(
-                                  Icons.save,
-                                  color: Colors.blueAccent,
-                                ),
                               ),
                             ),
                           ],
@@ -202,7 +220,6 @@ class _FlippableCardWidgetState extends State<FlippableCardWidget> {
                   ),
                 );
               },
-              icon: Icon(Icons.edit),
             ),
           ),
         ),
